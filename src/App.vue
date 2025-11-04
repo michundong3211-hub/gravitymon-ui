@@ -63,16 +63,6 @@
       alert="info"
     />
 
-    <BsMessage v-if="status.wifi_setup" :dismissable="false" alert="info">
-      Running in WIFI setup mode. Go to the
-      <router-link class="alert-link" to="/device/wifi">wifi settings</router-link>
-      meny and select wifi. Restart device after wifi is configured.
-    </BsMessage>
-
-    <BsMessage v-if="status.wifi_setup" :dismissable="false" alert="warning">
-      Sensors are not enabled when in wifi setup mode!
-    </BsMessage>
-
     <BsMessage v-if="status.ispindel_config" :dismissable="true" alert="info">
       iSpindel configuration found,
       <router-link class="alert-link" to="/device/gyro">import</router-link>
