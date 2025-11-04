@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <p></p>
-    <p class="h3">Device - WIFI</p>
+    <p class="h3">CuckooTilt - WiFi</p>
     <hr />
 
     <BsMessage

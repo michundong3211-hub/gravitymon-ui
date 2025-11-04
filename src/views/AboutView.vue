@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <p></p>
-    <p class="h3">About - Gravitymon</p>
+    <p class="h3">About - CuckooTilt</p>
     <hr />
 
     <p class="fw-normal">

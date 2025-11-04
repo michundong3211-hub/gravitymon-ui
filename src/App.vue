@@ -13,14 +13,14 @@
 
   <div v-if="!global.initialized" class="container text-center">
     <BsMessage
-      message="Initalizing GravityMon Web interface"
+      message="Initalizing CuckooTilt Web interface"
       class="h2"
       :dismissable="false"
       alert="info"
     ></BsMessage>
   </div>
 
-  <BsMenuBar v-if="global.initialized" :disabled="global.disabled" brand="Gravitymon" />
+  <BsMenuBar v-if="global.initialized" :disabled="global.disabled" brand="CuckooTilt" />
 
   <div class="container">
     <div>
