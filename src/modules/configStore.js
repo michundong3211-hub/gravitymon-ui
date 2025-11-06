@@ -287,6 +287,8 @@ export const useConfigStore = defineStore('config', {
       delete data.mqtt_format_gravity
       logDebug('configStore.sendConfig()', data)
 
+      console.log(data)
+
       if (JSON.stringify(data).length == 2) {
         logInfo('configStore.sendConfig()', 'No config data to store, skipping step')
         global.disabled = false

@@ -15,6 +15,7 @@ import DeviceWifi2View from '@/views/DeviceWifi2View.vue'
 import GravitySettingsView from '@/views/GravitySettingsView.vue'
 import GravityFormulaView from '@/views/GravityFormulaView.vue'
 import PushSettingsView from '@/views/PushSettingsView.vue'
+import PushHttpPostView from '@/views/PushHttpPostView.vue'
 import PushHttpPost1View from '@/views/PushHttpPost1View.vue'
 import PushHttpPost2View from '@/views/PushHttpPost2View.vue'
 import PushHttpGetView from '@/views/PushHttpGetView.vue'
@@ -83,6 +84,11 @@ const routes = [
     path: '/push/settings',
     name: 'push-settings',
     component: PushSettingsView
+  },
+  {
+    path: '/push/http-post',
+    name: 'push-http-post',
+    component: PushHttpPostView
   },
   {
     path: '/push/http-post1',

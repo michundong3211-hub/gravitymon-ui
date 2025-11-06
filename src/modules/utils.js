@@ -184,6 +184,8 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll('${run-time}', 5)
   s = s.replaceAll('${corr-gravity}', status.gravity)
   s = s.replaceAll('${battery}', status.battery)
+  s = s.replaceAll('${ip-address}', status.ip)
+  s = s.replaceAll('${run-mode}', 1)
 
   if (config.gravity_unit === 'G') {
     const sg = status.gravity

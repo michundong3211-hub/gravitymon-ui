@@ -72,17 +72,15 @@
   </div>
 
   <router-view v-if="global.initialized" />
-  <BsFooter v-if="global.initialized" text="(c) 2021-2025 Magnus Persson" />
 </template>
 
 <script setup>
-import BsMenuBar from './components/BsMenuBar.vue'
-import BsFooter from './components/BsFooter.vue'
-import { onMounted, watch, onBeforeMount, ref } from 'vue'
-import { global, status, config, saveConfigState } from './modules/pinia'
-import { storeToRefs } from 'pinia'
 import { useTimers } from '@/composables/useTimers'
 import { logError } from '@/modules/logger'
+import { storeToRefs } from 'pinia'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
+import BsMenuBar from './components/BsMenuBar.vue'
+import { config, global, saveConfigState, status } from './modules/pinia'
 
 const { createInterval } = useTimers()
 const polling = ref(null)
