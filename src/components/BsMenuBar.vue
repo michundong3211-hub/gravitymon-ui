@@ -3,7 +3,9 @@
     <div class="container-fluid align-center">
 
       <div class="navbar-brand">
-        {{ brand }}
+        <router-link class="nav-link" to="/">
+          {{ brand }}
+        </router-link>
       </div>
 
       <!-- 保留这个是为了样式留白 -->
@@ -28,13 +30,8 @@
       </div>
       <div class="p-2">
         <div class="form-check form-switch">
-          &nbsp;<input
-            v-model="config.dark_mode"
-            class="form-check-input"
-            type="checkbox"
-            role="switch"
-            style="border-color: white"
-          />
+          &nbsp;<input v-model="config.dark_mode" class="form-check-input" type="checkbox" role="switch"
+            style="border-color: white" />
         </div>
       </div>
     </div>

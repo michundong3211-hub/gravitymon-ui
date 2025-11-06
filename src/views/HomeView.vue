@@ -3,216 +3,85 @@
     <p></p>
 
     <template v-if="status">
-      <BsMessage
-        v-if="!status.self_check.push_targets"
-        dismissable="true"
-        message=""
-        alert="danger"
-      >
+      <BsMessage v-if="!status.self_check.push_targets" dismissable="true" message="" alert="danger">
         No remote services are active. Check your push settings and enable at least one service.
       </BsMessage>
 
-      <BsMessage
-        v-if="!status.self_check.gyro_connected && status.wifi_setup == false"
-        dismissable="true"
-        message=""
-        alert="danger"
-      >
+      <BsMessage v-if="!status.self_check.gyro_connected && status.wifi_setup == false" dismissable="true" message=""
+        alert="danger">
         No gyro is detected. Try to reboot / power-off. If this persists, check for hardware issues.
       </BsMessage>
     </template>
 
     <div v-if="status" class="container overflow-hidden text-center">
       <div class="row gy-4">
-        <div
-          class="col-md-4"
-          v-if="status.self_check.gravity_formula && status.wifi_setup == false"
-        >
-          <BsCard header="Measurement" color="info" title="Gravity">
+        <div class="col-md-4">
+          <BsCard header="WIFI" title="">
+            <p class="text-center">{{ status.rssi }} dBm - {{ status.wifi_ssid }}</p>
             <p class="text-center">
-              {{ status.gravity }}
-              {{ status.gravity_unit === 'G' ? ' SG' : ' P' }}
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/wifi">
+                WIFI Settings
+              </router-link>
+            </p>
+          </BsCard>
+        </div>
+        <div class="col-md-4">
+          <BsCard header="HTTP Post" title="">
+            <p class="text-center">Send data to multiple endpoints</p>
+            <p class="text-center">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/http-post">
+                HTTP Post Settings
+              </router-link>
+            </p>
+          </BsCard>
+        </div>
+        <div class="col-md-4">
+          <BsCard header="Bluetooth" title="">
+            <p class="text-center">Multiple Bluetooth data tranmission options</p>
+            <p class="text-center">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/bluetooth">
+                Bluetooth Settings
+              </router-link>
             </p>
           </BsCard>
         </div>
 
-        <div
-          class="col-md-4"
-          v-if="!status.self_check.gravity_formula && status.wifi_setup == false"
-        >
-          <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
+        <div class="col-md-4">
+          <BsCard header="Device" title="">
             <p class="text-center">
-              Missing
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/gravity/formula"
-                >formula</router-link
-              >, unable to calculate gravity
-            </p>
-          </BsCard>
-        </div>
-
-        <div
-          class="col-md-4"
-          v-if="
-            status.self_check.gyro_calibration &&
-            status.self_check.gyro_connected &&
-            status.wifi_setup == false
-          "
-        >
-          <BsCard header="Measurement" color="info" title="Angle">
-            <p class="text-center">
-              <template v-if="status.self_check.gyro_moving"> Gyro is moving </template>
-              <template v-else>
-                {{ status.angle }}
-              </template>
-            </p>
-          </BsCard>
-        </div>
-        <div
-          class="col-md-4"
-          v-if="
-            status.self_check.gyro_calibration &&
-            status.self_check.gyro_connected &&
-            status.wifi_setup == false
-          "
-        >
-          <BsCard header="Measurement" color="info" title="Average Angle">
-            <p class="text-center">
-              {{ angle.average }} ({{ angle.count }})
-              <button
-                @click="clearAverage"
-                type="button"
-                class="btn btn-outline-info btn-sm"
-                style="font-size: 0.7rem"
-              >
-                Clear
+              Device Id: {{ status.id }}
+              <button type="button" class="btn btn-outline-secondary btn-sm mx-2" @click="copyId">
+                {{ copied ? 'Copied!' : 'Copy ID' }}
               </button>
             </p>
+            <p class="text-center">
+              IP Address: {{ status.ip }}
+            </p>
           </BsCard>
         </div>
-        <div
-          class="col-md-4"
-          v-if="!status.self_check.gyro_calibration && status.wifi_setup == false"
-        >
-          <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
+
+        <div class="col-md-4">
+          <BsCard header="Firmware" title="">
             <p class="text-center">
-              Gyro has not been
+              Current Version: {{ global.app_ver }}
+            </p>
+            <p class="text-center" v-if="newVersion.new">
+              {{ newVersion.ver }} is available, go to
               <router-link
                 class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/device/gyro"
-                >calibrated</router-link
-              >
-              at 90 degrees
+                to="/other/firmware">
+                Firmware Update
+              </router-link>
+            </p>
+            <p class="text-center" v-if="!newVersion.new">
+              You have the latest version.
             </p>
           </BsCard>
         </div>
 
-        <div class="col-md-4" v-if="status.self_check.temp_connected && status.wifi_setup == false">
-          <BsCard header="Measurement" color="info" title="Temperature">
-            <p class="text-center">{{ status.temp }} °{{ status.temp_unit }}</p>
-          </BsCard>
-        </div>
-
-        <div
-          class="col-md-4"
-          v-if="!status.self_check.temp_connected && status.wifi_setup == false"
-        >
-          <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
-            <p class="text-center">No temperature sensor detected</p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4" v-if="status.self_check.battery_level">
-          <BsCard header="Measurement" color="info" title="Battery">
-            <p class="text-center">{{ status.battery }} V</p>
-          </BsCard>
-        </div>
-        <div class="col-md-4" v-if="!status.self_check.battery_level">
-          <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
-            <p class="text-center">Battery level not valid</p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4">
-          <BsCard header="Device" title="WIFI">
-            <p class="text-center">{{ status.rssi }} dBm - {{ status.wifi_ssid }}</p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4">
-          <BsCard header="Device" title="IP Address">
-            <p class="text-center">
-              {{ status.ip }}
-            </p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4">
-          <BsCard header="Device" title="Memory">
-            <p class="text-center">
-              Free: {{ status.free_heap }} kb, Total: {{ status.total_heap }} kb
-            </p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4" v-if="newVersion.new">
-          <BsCard header="Device" title="Upgrade available">
-            <p class="text-center">
-              {{ newVersion.ver }} available on
-              <a
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                href="https://github.com/mp-se/gravitymon/releases"
-                target="_blank"
-                >github.com</a
-              >
-            </p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4">
-          <BsCard header="Device" title="Software version">
-            <p class="text-center">
-              Firmware: {{ global.app_ver }} ({{ global.app_build }}) UI: {{ global.uiVersion }} ({{
-                global.uiBuild
-              }})
-            </p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4">
-          <BsCard header="Device" title="Platform">
-            <p class="text-center">
-              Platform: <span class="badge bg-secondary">{{ global.platform }}</span> Variant:
-              <span class="badge bg-secondary">{{ global.hardware }}</span>
-            </p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4" v-if="status.wifi_setup == false">
-          <BsCard header="Device" title="Hardware">
-            <p class="text-center">
-              Board: <span class="badge bg-secondary">{{ global.board }}</span> Gyro:
-              <span class="badge bg-secondary">{{ status.gyro_family }}</span>
-            </p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4">
-          <BsCard header="Device" title="ID">
-            <p class="text-center">{{ status.id }}</p>
-          </BsCard>
-        </div>
-
-        <div class="col-md-4">
-          <BsCard header="Device" title="Force config mode">
-            <div class="d-flex justify-content-center">
-              <div class="form-check form-switch" style="height: 0.7rem">
-                <input v-model="flag" class="form-check-input" type="checkbox" role="switch" />
-              </div>
-            </div>
-          </BsCard>
-        </div>
       </div>
     </div>
   </div>
@@ -234,7 +103,7 @@ const angle = ref({ average: 0, sum: 0, count: 0 })
 const newVersion = ref({ new: false, ver: '' })
 
 watch(flag, async () => {
-  status.setSleepMode(flag.value, () => {})
+  status.setSleepMode(flag.value, () => { })
 })
 
 function clearAverage() {
@@ -263,15 +132,15 @@ onMounted(async () => {
   createTimeout(async () => {
     try {
       logInfo('HomeView.onMounted()', 'Checking for new sw')
-      const response = await managedFetch('https://www.gravitymon.com/firmware/version.json')
-      
+      const response = await managedFetch('http://localhost:3000/api/version.json')
+
       if (!response) {
         // Request was aborted
         return
       }
-      
+
       const json = await response.json()
-      
+
       logDebug('HomeView.onMounted()', json)
       if (checkForNewGravMonVersion(json)) {
         newVersion.value.new = true
@@ -306,6 +175,17 @@ function checkForNewGravMonVersion(json) {
 
   return false
 }
-</script>
 
-<style></style>
+const copied = ref(false)
+
+function copyId() {
+  if (status.id) {
+    navigator.clipboard.writeText(status.id).then(() => {
+      copied.value = true
+      setTimeout(() => {
+        copied.value = false
+      }, 1200)
+    })
+  }
+}
+</script>

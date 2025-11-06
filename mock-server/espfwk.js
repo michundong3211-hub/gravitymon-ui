@@ -196,7 +196,7 @@ export function registerEspFwk(app) {
     wifiScanRunning = true
     setTimeout(() => {
       wifiScanRunning = false
-    }, 8000)
+    }, 1000)
     var data = {
       success: true,
       message: 'Wifi scan started.'

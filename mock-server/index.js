@@ -98,10 +98,10 @@ app.post('/api/push', (req, res) => {
        push_format: "http_format|http_format2|http_format3|influxdb2_format|mqtt_format"
      }
    */
-  if(!Object.prototype.hasOwnProperty.call(req.body, "push_format")) {
+  if (!Object.prototype.hasOwnProperty.call(req.body, "push_format")) {
     res.sendStatus(422)
     return
-  }  
+  }
   testRunning = true
   setTimeout(() => { testRunning = false }, 5000)
   var data = {
@@ -226,8 +226,26 @@ app.post('/api/sleepmode', (req, res) => {
      }
    */
   statusData.sleep_mode = req.body.sleep_mode
-  var data = { 
-    sleep_mode: req.body.sleep_mode 
+  var data = {
+    sleep_mode: req.body.sleep_mode
+  }
+  res.type('application/json')
+  res.send(data)
+})
+
+app.get('/api/version.json', (req, res) => {
+  console.log('GET: /api/version.json')
+  /* 
+   * Description:    Get the current version information
+   * Authentication: Required
+   * Limitation:     - 
+   * Note:           -
+   * Return:         200 OK, 401 Access Denied
+   */
+  var data = {
+    "project": "gravmon",
+    "version": "2.3.21",
+    "html": []
   }
   res.type('application/json')
   res.send(data)
