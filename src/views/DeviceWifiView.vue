@@ -23,10 +23,11 @@
 
     <form @submit.prevent="save" class="needs-validation" novalidate>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-9">
           <BsSelect
             v-model="config.wifi_ssid"
             label="SSID"
+            width="6"
             :options="networks"
             :badge="badge.deviceWifi1Badge()"
             :disabled="global.disabled"
@@ -35,72 +36,12 @@
           <BsInputText
             v-model="config.wifi_pass"
             type="password"
+            width="6"
             maxlength="50"
             label="Password"
             help="Enter password for the wifi network"
             :disabled="global.disabled"
           ></BsInputText>
-        </div>
-
-        <div class="col-md-6 hidden">
-          <BsSelect
-            v-model="config.wifi_ssid2"
-            label="SSID #2"
-            :options="networks"
-            :badge="badge.deviceWifi2Badge()"
-            :disabled="global.disabled"
-          />
-        </div>
-        <div class="col-md-6 hidden">
-          <BsInputText
-            v-model="config.wifi_pass2"
-            type="password"
-            maxlength="50"
-            label="Password #2"
-            help="Enter password for the first wifi network"
-            :disabled="global.disabled"
-          ></BsInputText>
-        </div>
-
-        <div class="col-md-12 hidden">
-          <hr />
-        </div>
-
-        <div class="col-md-6 hidden">
-          <BsInputNumber
-            v-model="config.wifi_portal_timeout"
-            unit="seconds"
-            label="Portal timeout"
-            min="10"
-            max="240"
-            step="1"
-            width="5"
-            help="Max time the wifi portal is idle (10 to 240)"
-            :disabled="global.disabled"
-          ></BsInputNumber>
-        </div>
-        <div class="col-md-6 hidden">
-          <BsInputNumber
-            v-model="config.wifi_connect_timeout"
-            unit="seconds"
-            label="Connection timeout"
-            min="1"
-            max="60"
-            step="1"
-            width="5"
-            help="Max time waiting for a wifi connection (1 to 60)"
-            :disabled="global.disabled"
-          >
-          </BsInputNumber>
-        </div>
-        <div class="col-md-6 hidden">
-          <BsInputSwitch
-            v-model="config.wifi_scan_ap"
-            label="Scan for strongest AP"
-            help="Will do a scan and connect to the strongest AP found (longer connection time)"
-            :disabled="global.disabled"
-          >
-          </BsInputSwitch>
         </div>
       </div>
 
@@ -197,9 +138,3 @@ const save = () => {
     'If WIFI settings are changed, restart the device and enter the new URL of the device!'
 }
 </script>
-
-<style scoped>
-.hidden {
-  display: none;
-}
-</style>
