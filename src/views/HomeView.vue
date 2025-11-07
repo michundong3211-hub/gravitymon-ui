@@ -17,7 +17,7 @@
       <div class="row gy-4">
         <div class="col-md-4">
           <BsCard header="WIFI" title="">
-            <p class="text-center">{{ status.rssi }} dBm - {{ status.wifi_ssid }}</p>
+            <p class="text-center">WIFI SSID: {{ status.wifi_ssid }}</p>
             <p class="text-center">
               <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                 to="/device/wifi">
@@ -37,7 +37,7 @@
             </p>
           </BsCard>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" v-if="global.platform?.toLowerCase().startsWith('esp32')">
           <BsCard header="Bluetooth" title="">
             <p class="text-center">Multiple Bluetooth data tranmission options</p>
             <p class="text-center">
@@ -52,8 +52,9 @@
         <div class="col-md-4">
           <BsCard header="Device" title="">
             <p class="text-center">
-              Device Id: {{ status.id }}
-              <button type="button" class="btn btn-outline-secondary btn-sm mx-2" @click="copyId" style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0;">
+              Device ID: {{ status.id }}
+              <button type="button" class="btn btn-outline-secondary btn-sm mx-2" @click="copyId"
+                style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0;">
                 {{ copied ? 'Copied!' : 'Copy ID' }}
               </button>
             </p>
@@ -69,12 +70,7 @@
               Current Version: {{ global.app_ver }}
             </p>
             <p class="text-center" v-if="newVersion.new">
-              {{ newVersion.ver }} is available, go to
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/other/firmware">
-                Firmware Update
-              </router-link>
+              {{ newVersion.ver }} is available
             </p>
             <p class="text-center" v-if="!newVersion.new">
               You have the latest version.
@@ -88,11 +84,11 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onBeforeMount } from 'vue'
-import { status, global } from '@/modules/pinia'
-import { logDebug, logError, logInfo } from '@/modules/logger'
-import { useTimers } from '@/composables/useTimers'
 import { useFetch } from '@/composables/useFetch'
+import { useTimers } from '@/composables/useTimers'
+import { logDebug, logError, logInfo } from '@/modules/logger'
+import { global, status } from '@/modules/pinia'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
 
 const { createInterval, createTimeout } = useTimers()
 const { managedFetch } = useFetch()

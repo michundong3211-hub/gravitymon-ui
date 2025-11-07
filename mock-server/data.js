@@ -184,7 +184,7 @@ export var statusData = {
   mdns: 'gravmon',
   // platform: 'esp8266',
   hardware: 'ispindel',
-  wifi_ssid: 'wifi',
+  wifi_ssid: '测试 SSID',
   ispindel_config: false,
   total_heap: 1000,
   free_heap: 500,
@@ -207,6 +207,7 @@ export var statusData = {
 
 export var featureData = {
   board: 'D1_MINI',
+  // platform: 'esp8266',
   platform: 'esp32c3',
   app_ver: '2.0.0',
   app_build: 'gitrev',
