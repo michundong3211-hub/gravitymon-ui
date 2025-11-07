@@ -37,7 +37,7 @@
             </p>
           </BsCard>
         </div>
-        <div class="col-md-4" v-if="global.platform?.toLowerCase().startsWith('esp32')">
+        <div class="col-md-4" v-if="!global.isEsp8266">
           <BsCard header="Bluetooth" title="">
             <p class="text-center">Multiple Bluetooth data tranmission options</p>
             <p class="text-center">
@@ -87,7 +87,7 @@
 import { useFetch } from '@/composables/useFetch'
 import { useTimers } from '@/composables/useTimers'
 import { logDebug, logError, logInfo } from '@/modules/logger'
-import { global, status } from '@/modules/pinia'
+import { global, status, config } from '@/modules/pinia'
 import { onBeforeMount, onMounted, ref, watch } from 'vue'
 
 const { createInterval, createTimeout } = useTimers()
@@ -128,7 +128,7 @@ onMounted(async () => {
   createTimeout(async () => {
     try {
       logInfo('HomeView.onMounted()', 'Checking for new sw')
-      const response = await managedFetch('http://localhost:3000/api/version.json')
+      const response = await managedFetch(`${config.ota_url}version.json`)
 
       if (!response) {
         // Request was aborted

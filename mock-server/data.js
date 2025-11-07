@@ -10,7 +10,8 @@ export var configData = {
   mdns: 'gravmon3',
   temp_unit: 'C',
   // Hardware
-  ota_url: 'https://www.gravitymon.com/firmware/',
+  ota_url: 'http://localhost:3000/api/',
+  // ota_url: 'https://api.ckbrew.com/rest/public/',
   storage_sleep: true,
   voltage_factor: 1.59,
   voltage_config: 4.15,

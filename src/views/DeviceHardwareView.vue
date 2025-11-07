@@ -47,7 +47,7 @@
           <BsInputSwitch
             v-model="config.storage_sleep"
             label="Storage sleep"
-            help="If enabled and the device is placed on its cap (less than 5 degress) it will go into sleep for 2000 minutes"
+            help="If enabled and the device is placed on its cap (less than 15 degrees) it will go into sleep for 2000 minutes"
             :disabled="global.disabled"
           ></BsInputSwitch>
         </div>
@@ -63,7 +63,7 @@
           <BsInputSwitch
             v-model="config.battery_saving"
             label="Battery saving"
-            help="When active, the sleep interval will be changed to 1 hour when battery drops below 20% (3.73V)"
+            help="When active, the sleep interval will be changed to 1 hour when battery drops below 25% (3.73V)"
             :disabled="global.disabled"
           ></BsInputSwitch>
         </div>
