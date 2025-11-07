@@ -53,7 +53,7 @@
           <BsCard header="Device" title="">
             <p class="text-center">
               Device Id: {{ status.id }}
-              <button type="button" class="btn btn-outline-secondary btn-sm mx-2" @click="copyId">
+              <button type="button" class="btn btn-outline-secondary btn-sm mx-2" @click="copyId" style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0;">
                 {{ copied ? 'Copied!' : 'Copy ID' }}
               </button>
             </p>
