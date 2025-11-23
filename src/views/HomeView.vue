@@ -67,7 +67,11 @@
         <div class="col-md-4">
           <BsCard header="Firmware" title="">
             <p class="text-center">
-              Current Version: {{ global.app_ver }}
+              Current Version: {{ global.app_ver }} 
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/other/firmware">
+                firmware upload
+              </router-link>
             </p>
             <p class="text-center" v-if="newVersion.new">
               {{ newVersion.ver }} is available
