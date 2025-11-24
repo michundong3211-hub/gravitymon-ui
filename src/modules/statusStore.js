@@ -52,7 +52,7 @@ export const useStatusStore = defineStore('status', {
         const json = await response.json()
         this.updateFromJson(json)
         
-        logInfo('statusStore.load()', 'Fetching /api/status completed')
+        logInfo('statusStore.load()', 'Fetching /api/status completed', json)
         if (callback) callback(true)
         return true
         
