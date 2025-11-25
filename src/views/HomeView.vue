@@ -3,31 +3,19 @@
     <p></p>
 
     <template v-if="status">
-      <BsMessage
-        v-if="!status.self_check.push_targets"
-        dismissable="true"
-        message=""
-        alert="danger"
-      >
+      <BsMessage v-if="!status.self_check.push_targets" dismissable="true" message="" alert="danger">
         No remote services are active. Check your push settings and enable at least one service.
       </BsMessage>
 
-      <BsMessage
-        v-if="!status.self_check.gyro_connected && status.wifi_setup === false"
-        dismissable="true"
-        message=""
-        alert="danger"
-      >
+      <BsMessage v-if="!status.self_check.gyro_connected && status.wifi_setup === false" dismissable="true" message=""
+        alert="danger">
         No gyro is detected. Try to reboot / power-off. If this persists, check for hardware issues.
       </BsMessage>
     </template>
 
     <div v-if="status" class="container overflow-hidden text-center">
       <div class="row gy-4" v-if="status.wifi_setup === false">
-        <div
-          class="col-md-4"
-          v-if="status.self_check.gravity_formula && status.wifi_setup === false"
-        >
+        <div class="col-md-4" v-if="status.self_check.gravity_formula && status.wifi_setup === false">
           <BsCard header="Measurement" color="info" title="Gravity">
             <p class="text-center">
               {{ status.gravity }}
@@ -36,31 +24,22 @@
           </BsCard>
         </div>
 
-        <div
-          class="col-md-4"
-          v-if="!status.self_check.gravity_formula && status.wifi_setup === false"
-        >
+        <div class="col-md-4" v-if="!status.self_check.gravity_formula && status.wifi_setup === false">
           <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
             <p class="text-center">
               Missing
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/gravity/formula"
-                >formula
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/gravity/formula">formula
               </router-link>
               , unable to calculate gravity
             </p>
           </BsCard>
         </div>
 
-        <div
-          class="col-md-4"
-          v-if="
-            status.self_check.gyro_calibration &&
-            status.self_check.gyro_connected &&
-            status.wifi_setup === false
-          "
-        >
+        <div class="col-md-4" v-if="status.self_check.gyro_calibration &&
+          status.self_check.gyro_connected &&
+          status.wifi_setup === false
+          ">
           <BsCard header="Measurement" color="info" title="Angle">
             <p class="text-center">
               <template v-if="status.self_check.gyro_moving"> Gyro is moving</template>
@@ -70,58 +49,38 @@
             </p>
           </BsCard>
         </div>
-        <div
-          class="col-md-4"
-          v-if="
-            status.self_check.gyro_calibration &&
-            status.self_check.gyro_connected &&
-            status.wifi_setup === false
-          "
-        >
+        <div class="col-md-4" v-if="status.self_check.gyro_calibration &&
+          status.self_check.gyro_connected &&
+          status.wifi_setup === false
+          ">
           <BsCard header="Measurement" color="info" title="Average Angle">
             <p class="text-center">
               {{ angle.average }} ({{ angle.count }})
-              <button
-                @click="clearAverage"
-                type="button"
-                class="btn btn-outline-info btn-sm"
-                style="font-size: 0.7rem"
-              >
+              <button @click="clearAverage" type="button" class="btn btn-outline-info btn-sm" style="font-size: 0.7rem">
                 Clear
               </button>
             </p>
           </BsCard>
         </div>
-        <div
-          class="col-md-4"
-          v-if="!status.self_check.gyro_calibration && status.wifi_setup === false"
-        >
+        <div class="col-md-4" v-if="!status.self_check.gyro_calibration && status.wifi_setup === false">
           <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
             <p class="text-center">
               Gyro has not been
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/device/gyro"
-                >calibrated
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/gyro">calibrated
               </router-link>
               at 90 degrees
             </p>
           </BsCard>
         </div>
 
-        <div
-          class="col-md-4"
-          v-if="status.self_check.temp_connected && status.wifi_setup === false"
-        >
+        <div class="col-md-4" v-if="status.self_check.temp_connected && status.wifi_setup === false">
           <BsCard header="Measurement" color="info" title="Temperature">
             <p class="text-center">{{ status.temp }} °{{ status.temp_unit }}</p>
           </BsCard>
         </div>
 
-        <div
-          class="col-md-4"
-          v-if="!status.self_check.temp_connected && status.wifi_setup === false"
-        >
+        <div class="col-md-4" v-if="!status.self_check.temp_connected && status.wifi_setup === false">
           <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
             <p class="text-center">No temperature sensor detected</p>
           </BsCard>
@@ -164,12 +123,8 @@
           <BsCard header="Device" title="Upgrade available">
             <p class="text-center">
               {{ newVersion.ver }} available on
-              <a
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                href="https://github.com/mp-se/gravitymon/releases"
-                target="_blank"
-                >github.com</a
-              >
+              <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                href="https://github.com/mp-se/gravitymon/releases" target="_blank">github.com</a>
             </p>
           </BsCard>
         </div>
@@ -223,10 +178,8 @@
           <BsCard header="WIFI" title="">
             <p class="text-center">WIFI SSID: {{ status.wifi_ssid }}</p>
             <p class="text-center">
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/device/wifi"
-              >
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/wifi">
                 WIFI Settings
               </router-link>
             </p>
@@ -236,10 +189,8 @@
           <BsCard header="HTTP Post" title="">
             <p class="text-center">Send data to multiple endpoints</p>
             <p class="text-center">
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/push/http-post"
-              >
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/http-post">
                 HTTP Post Settings
               </router-link>
             </p>
@@ -249,10 +200,8 @@
           <BsCard header="Bluetooth" title="">
             <p class="text-center">Multiple Bluetooth data tranmission options</p>
             <p class="text-center">
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/push/bluetooth"
-              >
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/bluetooth">
                 Bluetooth Settings
               </router-link>
             </p>
@@ -263,12 +212,8 @@
           <BsCard header="Device" title="">
             <p class="text-center">
               Device ID: {{ status.id }}
-              <button
-                type="button"
-                class="btn btn-outline-secondary btn-sm mx-2"
-                @click="copyId"
-                style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0"
-              >
+              <button type="button" class="btn btn-outline-secondary btn-sm mx-2" @click="copyId"
+                style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0">
                 {{ copied ? 'Copied!' : 'Copy ID' }}
               </button>
             </p>
@@ -277,18 +222,30 @@
         </div>
 
         <div class="col-md-4">
+          <BsCard header="Gravity Config" title="">
+            <p class="text-center">
+              Gravity Formula Config
+            </p>
+            <p>
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/gravity/formula">
+                Gravity Config
+              </router-link>
+            </p>
+          </BsCard>
+        </div>
+
+        <div class="col-md-4">
           <BsCard header="Firmware" title="">
             <p class="text-center">
               Current Version: {{ global.app_ver }}
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/other/firmware"
-              >
-                firmware upload
+            </p>
+            <p>
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/other/firmware">
+                Firmware Upload
               </router-link>
             </p>
-            <p class="text-center" v-if="newVersion.new">{{ newVersion.ver }} is available</p>
-            <p class="text-center" v-if="!newVersion.new">You have the latest version.</p>
           </BsCard>
         </div>
       </div>
@@ -313,7 +270,7 @@ const angle = ref({ average: 0, sum: 0, count: 0 })
 const newVersion = ref({ new: false, ver: '' })
 
 watch(flag, async () => {
-  status.setSleepMode(flag.value, () => {})
+  status.setSleepMode(flag.value, () => { })
 })
 
 function clearAverage() {

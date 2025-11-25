@@ -23,20 +23,18 @@
           <hr />
         </div>
         <div class="col-md-9">
-          <p class="h5">HTTP Post #1</p>
-        </div>
-        <div class="col-md-9">
-          <BsInputText v-model="config.http_post_target" type="url" maxlength="120" label="HTTP URL"
-            help="URL to push target, use format http://servername.com/resource (Supports http and https)"
-            :disabled="pushDisabled" />
-        </div>
-        <div class="col-md-9">
-          <BsInputTextAreaFormat v-model="config.http_post_format_gravity" rows="6" label="Data format"
-            help="Format template used to create the data sent to the remote service" :disabled="pushDisabled" />
-        </div>
-        <div class="col-md-9">
-          <BsModal @click="renderFormat" v-model="render" :code="true" :json="true" title="Format preview"
-            button="Preview format" :disabled="pushDisabled" />
+          <details>
+            <summary class="h5" style="cursor:pointer;">HTTP Post #1</summary>
+            <div>
+              <BsInputText v-model="config.http_post_target" type="url" maxlength="120" label="HTTP URL"
+                help="URL to push target, use format http://servername.com/resource (Supports http and https)"
+                :disabled="pushDisabled" />
+              <BsInputTextAreaFormat v-model="config.http_post_format_gravity" rows="6" label="Data format"
+                help="Format template used to create the data sent to the remote service" :disabled="pushDisabled" />
+              <BsModal @click="renderFormat" v-model="render" :code="true" :json="true" title="Format preview"
+                button="Preview format" :disabled="pushDisabled" />
+            </div>
+          </details>
         </div>
       </div>
 
@@ -45,7 +43,7 @@
           <hr />
         </div>
         <div class="col-md-9">
-          <details>
+          <details open="true">
             <summary class="h5" style="cursor:pointer;">HTTP Post #2</summary>
             <div class="">
               <BsInputText v-model="config.http_post2_target" type="url" maxlength="120" label="HTTP URL"

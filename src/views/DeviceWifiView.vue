@@ -54,7 +54,7 @@
           <hr />
         </div>
         <div class="col-md-12">
-          <button type="button" class="btn btn-primary w-2" @click="copyId()">
+          <button type="button" class="btn btn-primary" @click="copyId()">
             {{ copied ? 'Copied!' : 'Copy ID' }}
           </button>&nbsp;
 

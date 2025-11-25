@@ -82,11 +82,11 @@ const bleFormatOptions = ref([
   { label: 'Disabled', value: 0 },
   { label: 'Tilt iBeacon', value: 1 },
   { label: 'Tilt PRO iBeacon', value: 2 },
+  { label: 'RAPT v1', value: 6 },
+  { label: 'RAPT v2', value: 7 },
   { label: 'Gravitymon iBeacon', value: 5 },
   // { label: 'Gravitymon Service', value: 3 },
   { label: 'Gravitymon Eddystone', value: 4 },
-  { label: 'RAPT v1', value: 6 },
-  { label: 'RAPT v2', value: 7 }
 ])
 
 const tilt = computed(() => {
