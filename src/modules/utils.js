@@ -130,7 +130,9 @@ export function validateCurrentForm() {
   const forms = document.querySelectorAll('.needs-validation')
 
   Array.from(forms).forEach((form) => {
-    if (!form.checkValidity()) valid = false
+    if (!form.checkValidity()) {
+      valid = false
+    }
 
     form.classList.add('was-validated')
   })
@@ -234,13 +236,17 @@ export function isValidJson(s) {
 }
 
 export function isValidFormData(s) {
-  if (s.startsWith('?')) return true
+  if (s.startsWith('?')) {
+    return true
+  }
 
   return false
 }
 
 export function isValidMqttData(s) {
-  if (s.indexOf('|') >= 0) return true
+  if (s.indexOf('|') >= 0) {
+    return true
+  }
 
   return false
 }
@@ -264,30 +270,32 @@ export function getErrorString(code) {
 
 export function isGyroCalibrated() {
   const g = config.gyro_calibration_data
-  if (g.ax + g.ay + g.az + g.gx + g.gy + g.gz == 0) return false
+  if (g.ax + g.ay + g.az + g.gx + g.gy + g.gz == 0) {
+    return false
+  }
   return true
 }
 
 export async function restart() {
   global.clearMessages()
   global.disabled = true
-  
+
   const abortController = new AbortController()
   let redirectTimeout = null
-  
+
   try {
     const response = await fetch(global.baseURL + 'api/restart', {
       headers: { Authorization: global.token },
       signal: abortController.signal
     })
     const json = await response.json()
-    
+
     logDebug('utils.restart()', json)
     if (json.status == true) {
       global.messageSuccess =
         json.message + ' Redirecting to http://' + config.mdns + '.local in 8 seconds.'
       logInfo('utils.restart()', 'Scheduling refresh of UI')
-      
+
       redirectTimeout = setTimeout(() => {
         try {
           location.href = 'http://' + config.mdns + '.local'
@@ -297,13 +305,18 @@ export async function restart() {
           window.location.reload()
         }
       }, 8000)
-      
+
       // Clean up on page unload
-      window.addEventListener('beforeunload', () => {
-        if (redirectTimeout) clearTimeout(redirectTimeout)
-        abortController.abort()
-      }, { once: true })
-      
+      window.addEventListener(
+        'beforeunload',
+        () => {
+          if (redirectTimeout) {
+            clearTimeout(redirectTimeout)
+          }
+          abortController.abort()
+        },
+        { once: true }
+      )
     } else {
       global.messageError = json.message
     }
@@ -315,4 +328,18 @@ export async function restart() {
   } finally {
     global.disabled = false
   }
+}
+
+export function copyToClipboard(text) {
+  let input = document.createElement('input')
+  input.style.position = 'fixed'
+  input.style.top = '-10000px'
+  input.style.zIndex = '-999'
+  document.body.appendChild(input)
+  input.value = text
+  input.focus()
+  input.select()
+  let result = document.execCommand('copy')
+  document.body.removeChild(input)
+  return result
 }

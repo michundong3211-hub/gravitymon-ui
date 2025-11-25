@@ -42,6 +42,10 @@
             help="Enter password for the wifi network"
             :disabled="global.disabled"
           ></BsInputText>
+
+          <div class="has-validation pt-2">
+            <label class="form-label fw-bold">Device ID: {{ status.id }}</label>
+          </div>
         </div>
       </div>
 
@@ -50,6 +54,10 @@
           <hr />
         </div>
         <div class="col-md-12">
+          <button type="button" class="btn btn-primary w-2" @click="copyId()">
+            {{ copied ? 'Copied!' : 'Copy ID' }}
+          </button>&nbsp;
+
           <button
             type="submit"
             class="btn btn-primary w-2"
@@ -85,8 +93,8 @@
 </template>
 
 <script setup>
-import { validateCurrentForm, restart } from '@/modules/utils'
-import { global, config } from '@/modules/pinia'
+import { copyToClipboard, restart, validateCurrentForm } from '@/modules/utils'
+import { config, global, status } from '@/modules/pinia'
 import * as badge from '@/modules/badge'
 import { onMounted, ref } from 'vue'
 import { logDebug } from '@/modules/logger'
@@ -96,11 +104,18 @@ const networks = ref([])
 
 function wifiName(label, rssi, encr) {
   var l = label
-  if (encr) l += ' \u{1f512}'
-  if (rssi > -50) l += ' (Excellent)'
-  else if (rssi > -60) l += ' (Good)'
-  else if (rssi > -67) l += ' (Minimum)'
-  else l += ' (Poor)'
+  if (encr) {
+    l += ' \u{1f512}'
+  }
+  if (rssi > -50) {
+    l += ' (Excellent)'
+  } else if (rssi > -60) {
+    l += ' (Good)'
+  } else if (rssi > -67) {
+    l += ' (Minimum)'
+  } else {
+    l += ' (Poor)'
+  }
   return l
 }
 
@@ -123,7 +138,9 @@ onMounted(() => {
           return obj.value === d.wifi_ssid
         })
         logDebug('DeviceWifiView.onMounted()', 'result:', f, d.wifi_ssid)
-        if (f.length === 0) networks.value.push(o)
+        if (f.length === 0) {
+          networks.value.push(o)
+        }
       }
       scanning.value = false
     }
@@ -131,10 +148,24 @@ onMounted(() => {
 })
 
 const save = () => {
-  if (!validateCurrentForm()) return
+  if (!validateCurrentForm()) {
+    return
+  }
 
   config.saveAll()
   global.messageInfo =
     'If WIFI settings are changed, restart the device and enter the new URL of the device!'
+}
+
+const copied = ref(false)
+
+function copyId() {
+  const result = copyToClipboard(status.id)
+  if (result) {
+    copied.value = true
+    setTimeout(() => {
+      copied.value = false
+    }, 1500)
+  }
 }
 </script>

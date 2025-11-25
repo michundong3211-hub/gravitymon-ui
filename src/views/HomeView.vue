@@ -109,7 +109,10 @@
           </BsCard>
         </div>
 
-        <div class="col-md-4" v-if="status.self_check.temp_connected && status.wifi_setup === false">
+        <div
+          class="col-md-4"
+          v-if="status.self_check.temp_connected && status.wifi_setup === false"
+        >
           <BsCard header="Measurement" color="info" title="Temperature">
             <p class="text-center">{{ status.temp }} °{{ status.temp_unit }}</p>
           </BsCard>
@@ -299,6 +302,7 @@ import { global, status } from '@/modules/pinia'
 import { logDebug, logError, logInfo } from '@/modules/logger'
 import { useTimers } from '@/composables/useTimers'
 import { useFetch } from '@/composables/useFetch'
+import { copyToClipboard } from '@/modules/utils.js'
 
 const { createInterval, createTimeout } = useTimers()
 const { managedFetch } = useFetch()
@@ -391,26 +395,13 @@ function checkForNewGravMonVersion(json) {
 const copied = ref(false)
 
 function copyId() {
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(status.id).then(() => {
-      copied.value = true
-    })
-  } else {
-    let input = document.createElement('input')
-    input.style.position = 'fixed'
-    input.style.top = '-10000px'
-    input.style.zIndex = '-999'
-    document.body.appendChild(input)
-    input.value = status.id
-    input.focus()
-    input.select()
-    let result = document.execCommand('copy')
-    document.body.removeChild(input)
-    copied.value = !(!result || result === 'unsuccessful');
+  const result = copyToClipboard(status.id)
+  if (result) {
+    copied.value = true
+    setTimeout(() => {
+      copied.value = false
+    }, 1500)
   }
-  setTimeout(() => {
-    copied.value = false
-  }, 1200)
 }
 </script>
 
