@@ -3,7 +3,12 @@
     <p></p>
     <p class="h3">Push - HTTP Post</p>
 
-    <form @submit.prevent="save" class="needs-validation" novalidate :disabled="config.use_wifi_direct">
+    <form
+      @submit.prevent="save"
+      class="needs-validation"
+      novalidate
+      :disabled="config.use_wifi_direct"
+    >
       <div class="row">
         <div class="col-md-12">
           <hr />
@@ -12,49 +17,75 @@
           <p class="h5">HTTP Post Settings</p>
         </div>
         <div class="col-md-9">
-          <BsInputNumber v-model="config.sleep_interval" :label="'Sleep interval' + sleepLabel" unit="s" min="10"
-            max="3600" step="1" width="4"
+          <BsInputNumber
+            v-model="config.sleep_interval"
+            :label="'Sleep interval' + sleepLabel"
+            unit="s"
+            min="10"
+            max="3600"
+            step="1"
+            width="4"
             help="The number of seconds that the device will sleep between gravity readings. Recommended value is 900s"
-            :disabled="global.disabled" />
+            :disabled="global.disabled"
+          />
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <hr />
-        </div>
-        <div class="col-md-9">
-          <details>
-            <summary class="h5" style="cursor:pointer;">HTTP Post #1</summary>
-            <div>
-              <BsInputText v-model="config.http_post_target" type="url" maxlength="120" label="HTTP URL"
-                help="URL to push target, use format http://servername.com/resource (Supports http and https)"
-                :disabled="pushDisabled" />
-              <BsInputTextAreaFormat v-model="config.http_post_format_gravity" rows="6" label="Data format"
-                help="Format template used to create the data sent to the remote service" :disabled="pushDisabled" />
-              <BsModal @click="renderFormat" v-model="render" :code="true" :json="true" title="Format preview"
-                button="Preview format" :disabled="pushDisabled" />
-            </div>
-          </details>
-        </div>
-      </div>
+      <!--      <div class="row">
+              <div class="col-md-12">
+                <hr />
+              </div>
+              <div class="col-md-9">
+                <details>
+                  <summary class="h5" style="cursor:pointer;">HTTP Post #1</summary>
+                  <div>
+                    <BsInputText v-model="config.http_post_target" type="url" maxlength="120" label="HTTP URL"
+                      help="URL to push target, use format http://servername.com/resource (Supports http and https)"
+                      :disabled="pushDisabled" />
+                    <BsInputTextAreaFormat v-model="config.http_post_format_gravity" rows="6" label="Data format"
+                      help="Format template used to create the data sent to the remote service" :disabled="pushDisabled" />
+                    <BsModal @click="renderFormat" v-model="render" :code="true" :json="true" title="Format preview"
+                      button="Preview format" :disabled="pushDisabled" />
+                  </div>
+                </details>
+              </div>
+            </div>-->
 
       <div class="row">
         <div class="col-md-12">
           <hr />
         </div>
         <div class="col-md-9">
-          <details open="true">
-            <summary class="h5" style="cursor:pointer;">HTTP Post #2</summary>
-            <div class="">
-              <BsInputText v-model="config.http_post2_target" type="url" maxlength="120" label="HTTP URL"
-                help="URL to push target, use format http://servername.com/resource (Supports http and https)"
-                :disabled="pushDisabled" />
-              <BsInputTextAreaFormat v-model="config.http_post2_format_gravity" rows="6" label="Data format"
-                help="Format template used to create the data sent to the remote service" :disabled="pushDisabled" />
-              <BsModal @click="renderFormat2" v-model="render" :code="true" :json="true" title="Format preview"
-                button="Preview format" :disabled="pushDisabled" />
-            </div>
-          </details>
+          <h5 class="h5" style="cursor: pointer">HTTP Post</h5>
+          <div class="">
+            <BsInputText
+              v-model="config.http_post2_target"
+              type="url"
+              maxlength="120"
+              label="HTTP URL"
+              help="URL to push target, use format http://servername.com/resource (Supports http and https)"
+              :disabled="pushDisabled"
+            />
+            <details>
+              <summary class="pt-2 fw-bold" style="cursor: pointer">Data Format</summary>
+              <div>
+                <BsInputTextAreaFormat
+                  v-model="config.http_post2_format_gravity"
+                  rows="6"
+                  help="Format template used to create the data sent to the remote service"
+                  :disabled="pushDisabled"
+                />
+                <BsModal
+                  @click="renderFormat2"
+                  v-model="render"
+                  :code="true"
+                  :json="true"
+                  title="Format preview"
+                  button="Preview format"
+                  :disabled="pushDisabled"
+                />
+              </div>
+            </details>
+          </div>
         </div>
       </div>
       <div class="row gy-2">
@@ -62,10 +93,28 @@
           <hr />
         </div>
         <div class="col-md-12">
-          <button type="submit" class="btn btn-primary w-2" :disabled="global.disabled || !global.configChanged">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-              :hidden="!global.disabled"></span>
-            &nbsp;Save</button>&nbsp;
+          <button
+            type="submit"
+            class="btn btn-primary w-2"
+            :disabled="global.disabled || !global.configChanged"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              :hidden="!global.disabled"
+            ></span>
+            &nbsp;Save</button
+          >&nbsp;
+          <button @click="runTest" type="button" class="btn btn-secondary" :disabled="pushDisabled">
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              :hidden="!global.disabled"
+            ></span>
+            &nbsp;Run push test
+          </button>
         </div>
       </div>
     </form>
@@ -74,12 +123,10 @@
 
 <script setup>
 import { config, global, status } from '@/modules/pinia'
-import {
-  applyTemplate,
-  validateCurrentForm
-} from '@/modules/utils'
+import { applyTemplate, validateCurrentForm } from '@/modules/utils'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref, watch } from 'vue'
+import { logError } from '@/modules/logger.js'
 
 const { sleep_interval } = storeToRefs(config)
 const render = ref('')
@@ -111,8 +158,24 @@ const renderFormat2 = () => {
 }
 
 const save = () => {
-  if (!validateCurrentForm()) return
+  if (!validateCurrentForm()) {
+    return
+  }
 
   config.saveAll()
+}
+
+const runTest = async () => {
+  try {
+    const data = {
+      push_format: 'http_post2_format_gravity'
+    }
+
+    global.clearMessages()
+    await config.runPushTest(data)
+  } catch (error) {
+    logError('PushHttpPost2View.runTest()', error)
+    global.messageError = 'Failed to start push test'
+  }
 }
 </script>
