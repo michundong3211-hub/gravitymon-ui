@@ -8,7 +8,7 @@
       <form @submit.prevent="save" class="needs-validation" novalidate>
         <div class="row">
           <div class="col-md-12">
-            <BsInputRadio
+            <BsInputRadioGrid
               v-model="config.ble_tilt_color"
               :options="bleTiltColorOptions"
               label="Tilt color"
@@ -17,7 +17,7 @@
             />
           </div>
           <div class="col-md-12">
-            <BsInputRadio
+            <BsInputRadioGrid
               v-model="config.ble_format"
               :options="bleFormatOptions"
               label="Bluetooth data format"

@@ -22,6 +22,7 @@ import BsInputTextArea from './components/BsInputTextArea.vue'
 import BsInputNumber from './components/BsInputNumber.vue'
 import BsInputSwitch from './components/BsInputSwitch.vue'
 import BsInputRadio from './components/BsInputRadio.vue'
+import BsInputRadioGrid from './components/BsInputRadioGrid.vue'
 import BsDropdown from './components/BsDropdown.vue'
 import BsModal from './components/BsModal.vue'
 import BsModalConfirm from './components/BsModalConfirm.vue'
@@ -57,6 +58,7 @@ app.component('BsInputTextArea', BsInputTextArea)
 app.component('BsInputNumber', BsInputNumber)
 app.component('BsInputSwitch', BsInputSwitch)
 app.component('BsInputRadio', BsInputRadio)
+app.component('BsInputRadioGrid', BsInputRadioGrid)
 app.component('BsDropdown', BsDropdown)
 app.component('BsModal', BsModal)
 app.component('BsModalConfirm', BsModalConfirm)

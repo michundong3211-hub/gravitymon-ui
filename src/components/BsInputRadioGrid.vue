@@ -1,6 +1,6 @@
 <template>
   <BsInputBase :width="width" :label="label" :help="help" :badge="badge">
-    <div class="btn-group" role="group" >
+    <div class="btn-group" role="group" style="flex-wrap: wrap;">
       <template v-for="o in options" :key="o.value">
         <input
           type="radio"
@@ -11,7 +11,7 @@
           :id="'radio' + $.uid + o.value"
           :disabled="disabled"
         />
-        <label class="btn btn-outline-primary" :for="'radio' + $.uid + o.value">{{
+        <label class="btn btn-outline-primary" style="flex: none;" :for="'radio' + $.uid + o.value">{{
           o.label
         }}</label>
       </template>
