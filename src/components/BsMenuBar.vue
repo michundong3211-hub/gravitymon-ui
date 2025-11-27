@@ -9,7 +9,7 @@
         aria-controls="navbarNav"
         aria-expanded="false"
         aria-label="Toggle navigation"
-        v-if="status.wifi_setup === false"
+        v-if="isConfigMode"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -20,11 +20,8 @@
         </router-link>
       </div>
 
-      <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white" v-if="status.wifi_setup === false"></div>
-      <!-- 保留这个是为了样式留白 -->
-      <div class="collapse navbar-collapse" id="navbar" v-if="status.wifi_setup"></div>
-
-      <div class="collapse navbar-collapse" id="navbar" v-if="status.wifi_setup === false">
+      <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white" v-if="isConfigMode"></div>
+      <div class="collapse navbar-collapse" id="navbar" v-if="isConfigMode">
         <ul class="navbar-nav">
           <!--
                         The drop-downs here are in conflict with the Vue so that dropdowns are not always closed.
@@ -105,6 +102,8 @@
           </template>
         </ul>
       </div>
+      <!-- 保留这个是为了样式留白 -->
+      <div class="collapse navbar-collapse" id="navbar" v-else></div>
 
       <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white"></div>
 
@@ -146,7 +145,7 @@
  */
 
 import { config, global, status } from '@/modules/pinia'
-import { onMounted, watch } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { items } from '@/modules/router'
 /**
@@ -154,6 +153,8 @@ import { items } from '@/modules/router'
  *
  * Note! Item structure is stored in the router file.
  */
+
+const isConfigMode = computed(() => status.wifi_setup === false || global.forceConfigMode)
 
 /**
  * Ref that steers if this component is enabled or not (required).

@@ -30,7 +30,9 @@ export const useGlobalStore = defineStore('global', {
       messageInfo: '',
 
       fetchTimout: 8000,
-      url: undefined
+      url: undefined,
+
+      forceConfigMode: false
     }
   },
   getters: {
