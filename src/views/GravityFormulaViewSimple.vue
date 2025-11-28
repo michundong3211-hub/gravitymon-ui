@@ -24,7 +24,7 @@
       <div class="col-md-12 mt-2">
         <button
           type="submit"
-          class="btn btn-primary w-2"
+          class="btn btn-primary"
           :disabled="global.disabled || !global.configChanged"
         >
           <span
@@ -32,8 +32,16 @@
             role="status"
             aria-hidden="true"
             :hidden="!global.disabled"
-          ></span>
-          &nbsp;Save
+          ></span
+          >Save
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary mx-2"
+          :disabled="global.disabled"
+          @click="useDefaultFormula"
+        >
+          Use default formula
         </button>
       </div>
     </form>
@@ -51,5 +59,9 @@ const save = async () => {
   }
 
   await config.saveAll()
+}
+
+const useDefaultFormula = () => {
+  config.gravity_formula = '0.979742642057399+0.0005883931405567239*tilt+0.000008876047085889598*tilt*tilt'
 }
 </script>
