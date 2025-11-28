@@ -8,6 +8,19 @@
       <form @submit.prevent="save" class="needs-validation" novalidate>
         <div class="row">
           <div class="col-md-12">
+            <div class="col-md-9">
+              <BsInputNumber
+                v-model="config.ble_sleep_interval"
+                :label="'Sleep interval' + sleepLabel"
+                unit="s"
+                min="10"
+                max="600"
+                step="1"
+                width="4"
+                help="The number of seconds that the device will sleep between gravity readings. Recommended value is 30s"
+                :disabled="global.disabled"
+              />
+            </div>
             <BsInputRadioGrid
               v-model="config.ble_tilt_color"
               :options="bleTiltColorOptions"
@@ -63,9 +76,26 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { validateCurrentForm } from '@/modules/utils'
 import { global, config } from '@/modules/pinia'
+import { storeToRefs } from 'pinia'
+
+const { ble_sleep_interval } = storeToRefs(config)
+const sleepLabel = ref('')
+
+watch(ble_sleep_interval, () => {
+  createSleepLabel()
+})
+
+onMounted(() => {
+  createSleepLabel()
+})
+
+const createSleepLabel = () => {
+  const s = Math.floor(ble_sleep_interval.value / 60) + ' min ' + (ble_sleep_interval.value % 60) + ' sec'
+  sleepLabel.value = '(' + s + ')'
+}
 
 const bleTiltColorOptions = ref([
   { label: 'red', value: 'red' },
