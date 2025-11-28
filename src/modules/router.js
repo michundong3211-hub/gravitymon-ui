@@ -14,6 +14,7 @@ import DeviceWifiView from '@/views/DeviceWifiView.vue'
 import DeviceWifi2View from '@/views/DeviceWifi2View.vue'
 import GravitySettingsView from '@/views/GravitySettingsView.vue'
 import GravityFormulaView from '@/views/GravityFormulaView.vue'
+import GravityFormulaViewSimple from '@/views/GravityFormulaViewSimple.vue'
 import PushSettingsView from '@/views/PushSettingsView.vue'
 import PushHttpPostView from '@/views/PushHttpPostView.vue'
 import PushHttpPost1View from '@/views/PushHttpPost1View.vue'
@@ -74,6 +75,11 @@ const routes = [
     path: '/gravity/formula',
     name: 'gravity-formula',
     component: GravityFormulaView
+  },
+  {
+    path: '/gravity/formula2',
+    name: 'gravity-formula-simple',
+    component: GravityFormulaViewSimple
   },
   {
     path: '/other/firmware',

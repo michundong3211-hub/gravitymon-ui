@@ -222,15 +222,16 @@
         </div>
 
         <div class="col-md-4">
-          <BsCard header="Config Mode" title="">
+          <BsCard header="Gravity Formula" title="">
             <p class="text-center">
-              Enter Config Mode
+              Configure gravity formula
             </p>
-            <div class="d-flex justify-content-center" style="margin-bottom: 9px;">
-              <div class="form-check form-switch">
-                <input v-model="global.forceConfigMode" class="form-check-input" type="checkbox" role="switch" />
-              </div>
-            </div>
+            <p class="text-center">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                           to="/gravity/formula2">
+                Gravity Formula Settings
+              </router-link>
+            </p>
           </BsCard>
         </div>
 
