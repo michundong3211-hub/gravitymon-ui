@@ -296,7 +296,6 @@ function refresh() {
 
 onMounted(async () => {
   flag.value = status.sleep_mode
-  forceConfigMode.value = !status.wifi_setup
 
   createTimeout(async () => {
     try {

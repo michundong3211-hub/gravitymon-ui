@@ -109,15 +109,6 @@ export const useConfigStore = defineStore('config', {
       this.internal_temp_unit = 'C'
     },
     calculateIntervals() {
-      // 使用欧几里得算法计算最大公约数 (GCD)
-      const calculateGCD = (a, b) => {
-        while (b !== 0) {
-          const temp = b;
-          b = a % b;
-          a = temp;
-        }
-        return Math.abs(a); // 返回正值
-      };
       // 判断 HTTP Post 和蓝牙是否开启
       const isHttpEnabled = this.http_post_target.trim() !== ""; // HTTP Post 开启条件
       const isBleEnabled = this.ble_format !== 0; // 蓝牙开启条件
@@ -138,8 +129,8 @@ export const useConfigStore = defineStore('config', {
       }
       // 如果两者都开启
       if (isHttpEnabled && isBleEnabled) {
-        this.sleep_interval = calculateGCD(this.http_post_sleep_interval, this.ble_sleep_interval);
-        this.http_post_int = Math.floor(this.http_post_sleep_interval / this.sleep_interval);
+        this.sleep_interval = Math.min(this.http_post_sleep_interval, this.ble_sleep_interval);
+        this.http_post_int = Math.floor(this.http_post_sleep_interval / this.sleep_interval) - 1;
       }
       this.http_post2_int = this.http_post_int; // 同步第二个 HTTP Post 的间隔
     },
