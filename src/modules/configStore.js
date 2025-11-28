@@ -141,6 +141,7 @@ export const useConfigStore = defineStore('config', {
         this.sleep_interval = calculateGCD(this.http_post_sleep_interval, this.ble_sleep_interval);
         this.http_post_int = Math.floor(this.http_post_sleep_interval / this.sleep_interval);
       }
+      this.http_post2_int = this.http_post_int; // 同步第二个 HTTP Post 的间隔
     },
     convertTempToF() {
       if (this.internal_temp_unit == 'F') return
