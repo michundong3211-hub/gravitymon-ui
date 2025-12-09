@@ -12,6 +12,7 @@ app.use(router)
 // Manual component registration (fallback while debugging auto-registration)
 import BsMessage from './components/BsMessage.vue'
 import BsCard from './components/BsCard.vue'
+import BsCardSimple from './components/BsCardSimple.vue'
 import BsFileUpload from './components/BsFileUpload.vue'
 import BsProgress from './components/BsProgress.vue'
 import BsInputBase from './components/BsInputBase.vue'
@@ -48,6 +49,7 @@ import IconInfoCircle from './components/IconInfoCircle.vue'
 // Register Bootstrap components
 app.component('BsMessage', BsMessage)
 app.component('BsCard', BsCard)
+app.component('BsCardSimple', BsCardSimple)
 app.component('BsFileUpload', BsFileUpload)
 app.component('BsProgress', BsProgress)
 app.component('BsInputBase', BsInputBase)

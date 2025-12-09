@@ -210,6 +210,8 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll('${mdns}', config.mdns)
   s = s.replaceAll('${id}', config.id)
   s = s.replaceAll('${sleep-interval}', config.sleep_interval)
+  s = s.replaceAll('${http-post-sleep-interval}', config.http_post_sleep_interval)
+  s = s.replaceAll('${ble-sleep-interval}', config.ble_sleep_interval)
   s = s.replaceAll('${token}', config.token)
   s = s.replaceAll('${token2}', config.token2)
   s = s.replaceAll('${temp-unit}', config.temp_unit)
