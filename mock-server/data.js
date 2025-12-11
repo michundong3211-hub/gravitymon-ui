@@ -34,8 +34,6 @@ export var configData = {
   token: 'mytoken1',
   token2: 'mytoken2',
   sleep_interval: 30,
-  http_post_sleep_interval: 890,
-  ble_sleep_interval: 15,
   push_timeout: 10,
   skip_ssl_on_test: false,
   // Push - Http Post 1

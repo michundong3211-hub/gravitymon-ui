@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-9">
           <BsInputNumber
-            v-model="config.http_post_sleep_interval"
+            v-model="config.sleep_interval"
             :label="'Sleep interval' + sleepLabel"
             unit="s"
             min="10"
@@ -128,11 +128,11 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref, watch } from 'vue'
 import { logError } from '@/modules/logger.js'
 
-const { http_post_sleep_interval } = storeToRefs(config)
+const { sleep_interval } = storeToRefs(config)
 const render = ref('')
 const sleepLabel = ref('')
 
-watch(http_post_sleep_interval, () => {
+watch(sleep_interval, () => {
   createSleepLabel()
 })
 
@@ -141,7 +141,7 @@ onMounted(() => {
 })
 
 const createSleepLabel = () => {
-  const s = Math.floor(http_post_sleep_interval.value / 60) + ' min ' + (http_post_sleep_interval.value % 60) + ' sec'
+  const s = Math.floor(sleep_interval.value / 60) + ' min ' + (sleep_interval.value % 60) + ' sec'
   sleepLabel.value = '(' + s + ')'
 }
 
