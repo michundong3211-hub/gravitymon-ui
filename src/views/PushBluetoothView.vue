@@ -79,7 +79,7 @@ const bleTiltColorOptions = ref([
 ])
 
 const bleFormatOptions = ref([
-  { label: 'Disabled', value: 0 },
+  // { label: 'Disabled', value: 0 },   // 使用另外的开关来禁用蓝牙
   { label: 'Tilt iBeacon', value: 1 },
   { label: 'Tilt PRO iBeacon', value: 2 },
   { label: 'RAPT v1', value: 6 },

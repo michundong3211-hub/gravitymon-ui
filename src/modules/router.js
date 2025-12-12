@@ -16,6 +16,7 @@ import GravitySettingsView from '@/views/GravitySettingsView.vue'
 import GravityFormulaView from '@/views/GravityFormulaView.vue'
 import GravityFormulaViewSimple from '@/views/GravityFormulaViewSimple.vue'
 import PushSettingsView from '@/views/PushSettingsView.vue'
+import PushSettingsView2 from '@/views/PushSettingsView2.vue'
 import PushHttpPostView from '@/views/PushHttpPostView.vue'
 import PushHttpPost1View from '@/views/PushHttpPost1View.vue'
 import PushHttpPost2View from '@/views/PushHttpPost2View.vue'
@@ -90,6 +91,11 @@ const routes = [
     path: '/push/settings',
     name: 'push-settings',
     component: PushSettingsView
+  },
+  {
+    path: '/push/settings2',
+    name: 'push-settings2',
+    component: PushSettingsView2
   },
   {
     path: '/push/http-post',

@@ -105,16 +105,17 @@
       <!-- 保留这个是为了样式留白 -->
       <div class="collapse navbar-collapse" id="navbar" v-else></div>
 
+      <!--
       <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white"></div>
-
       <div class="text-white">
         {{ config.mdns }}
       </div>
+      -->
 
       <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white"></div>
 
       <div v-if="global.configChanged">
-        <span class="badge bg-danger fs-6">Save needed &nbsp;</span>
+        <span class="badge bg-danger fs-6">Save needed</span>
       </div>
 
       <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white" v-if="global.configChanged"></div>

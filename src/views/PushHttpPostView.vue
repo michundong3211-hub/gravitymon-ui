@@ -3,53 +3,7 @@
     <p></p>
     <p class="h3">Push - HTTP Post</p>
 
-    <form
-      @submit.prevent="save"
-      class="needs-validation"
-      novalidate
-      :disabled="config.use_wifi_direct"
-    >
-      <div class="row">
-        <div class="col-md-12">
-          <hr />
-        </div>
-        <div class="col-md-9">
-          <p class="h5">HTTP Post Settings</p>
-        </div>
-        <div class="col-md-9">
-          <BsInputNumber
-            v-model="config.sleep_interval"
-            :label="'Sleep interval' + sleepLabel"
-            unit="s"
-            min="10"
-            max="3600"
-            step="1"
-            width="4"
-            help="The number of seconds that the device will sleep between gravity readings. Recommended value is 900s"
-            :disabled="global.disabled"
-          />
-        </div>
-      </div>
-      <!--      <div class="row">
-              <div class="col-md-12">
-                <hr />
-              </div>
-              <div class="col-md-9">
-                <details>
-                  <summary class="h5" style="cursor:pointer;">HTTP Post #1</summary>
-                  <div>
-                    <BsInputText v-model="config.http_post_target" type="url" maxlength="120" label="HTTP URL"
-                      help="URL to push target, use format http://servername.com/resource (Supports http and https)"
-                      :disabled="pushDisabled" />
-                    <BsInputTextAreaFormat v-model="config.http_post_format_gravity" rows="6" label="Data format"
-                      help="Format template used to create the data sent to the remote service" :disabled="pushDisabled" />
-                    <BsModal @click="renderFormat" v-model="render" :code="true" :json="true" title="Format preview"
-                      button="Preview format" :disabled="pushDisabled" />
-                  </div>
-                </details>
-              </div>
-            </div>-->
-
+    <form @submit.prevent="save" class="needs-validation" novalidate>
       <div class="row">
         <div class="col-md-12">
           <hr />
@@ -148,10 +102,6 @@ const createSleepLabel = () => {
 const pushDisabled = computed(() => {
   return global.disabled || config.use_wifi_direct
 })
-
-const renderFormat = () => {
-  render.value = applyTemplate(status, config, config.http_post_format_gravity)
-}
 
 const renderFormat2 = () => {
   render.value = applyTemplate(status, config, config.http_post2_format_gravity)

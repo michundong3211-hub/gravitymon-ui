@@ -217,6 +217,21 @@
           </BsCardSimple>
         </div>
         <div class="col-md-4">
+          <BsCardSimple header="Push Settings">
+            <div
+              class="d-flex align-items-center justify-content-center"
+              style="height: 80px; gap: 1rem"
+            >
+              <router-link
+                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/settings2"
+              >
+                Push Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+        <div class="col-md-4">
           <BsCardSimple header="HTTP Post">
             <div
               class="d-flex align-items-center justify-content-center"
@@ -349,7 +364,6 @@ function refresh() {
 
 onMounted(async () => {
   flag.value = status.sleep_mode
-  forceConfigMode.value = !status.wifi_setup
 
   createTimeout(async () => {
     try {

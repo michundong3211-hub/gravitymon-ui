@@ -33,7 +33,9 @@ export var configData = {
   // Push - Generic
   token: 'mytoken1',
   token2: 'mytoken2',
-  sleep_interval: 30,
+  sleep_interval: 900,
+  use_http_post: true,
+  use_ble: false,
   push_timeout: 10,
   skip_ssl_on_test: false,
   // Push - Http Post 1

@@ -43,6 +43,8 @@ export const useConfigStore = defineStore('config', {
       sleep_interval: 0,
       push_timeout: 0,
       skip_ssl_on_test: false,
+      use_http_post: false,
+      use_ble: false,
       // Push - Http Post 1
       http_post_target: '',
       http_post_header1: '',
@@ -185,6 +187,8 @@ export const useConfigStore = defineStore('config', {
           this.token = json.token
           this.token2 = json.token2
           this.sleep_interval = json.sleep_interval
+          this.use_http_post = json.use_http_post
+          this.use_ble = json.use_ble
           this.push_timeout = json.push_timeout
           this.skip_ssl_on_test = json.skip_ssl_on_test
           // Push - Http Post 1
