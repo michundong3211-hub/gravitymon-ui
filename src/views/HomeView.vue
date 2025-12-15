@@ -323,7 +323,7 @@
 
 <script setup>
 import { onBeforeMount, onMounted, ref, watch, computed } from 'vue'
-import { global, status } from '@/modules/pinia'
+import { global, status, config } from '@/modules/pinia'
 import { logDebug, logError, logInfo } from '@/modules/logger'
 import { useTimers } from '@/composables/useTimers'
 import { useFetch } from '@/composables/useFetch'
@@ -368,7 +368,8 @@ onMounted(async () => {
   createTimeout(async () => {
     try {
       logInfo('HomeView.onMounted()', 'Checking for new sw')
-      const response = await managedFetch('https://www.gravitymon.com/firmware/version.json')
+      const versionFile = global.isEsp8266 ? 'version.json' : 'version32c3.json'
+      const response = await managedFetch(`${config.ota_url}${versionFile}`)
 
       if (!response) {
         // Request was aborted
