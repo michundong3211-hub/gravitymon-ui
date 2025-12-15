@@ -99,12 +99,12 @@ const updateSleepLabel = () => {
 }
 
 const updateSleepInterval = () => {
-  if (config.use_ble) {
-    sleepMin.value = 15
-    sleepDefault.value = 30
-  } else {
+  if (config.use_http_post || (!config.use_http_post && !config.use_ble)) {
     sleepMin.value = 300
     sleepDefault.value = 900
+  } else {
+    sleepMin.value = 15
+    sleepDefault.value = 30
   }
   config.sleep_interval = sleepDefault.value
 }
