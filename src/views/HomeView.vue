@@ -216,7 +216,7 @@
             </div>
           </BsCardSimple>
         </div>
-        <div class="col-md-4">
+<!--        <div class="col-md-4">
           <BsCardSimple header="Push Settings">
             <div
               class="d-flex align-items-center justify-content-center"
@@ -230,7 +230,7 @@
               </router-link>
             </div>
           </BsCardSimple>
-        </div>
+        </div>-->
         <div class="col-md-4">
           <BsCardSimple header="HTTP Post">
             <div
