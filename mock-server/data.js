@@ -205,7 +205,7 @@ export var statusData = {
   gyro_family: 'MPU6050',
   // gyro_family: 'MPU6500',
   // gyro_family: 'ICM42670-p',
-  wifi_setup: true
+  wifi_setup: false
 }
 
 export var featureData = {

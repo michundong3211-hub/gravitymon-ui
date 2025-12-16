@@ -52,7 +52,7 @@
 
         <div class="col-md-9">
           <BsInputText
-            v-model="config.ota_url"
+            v-model="otaUrl"
             type="url"
             maxlength="80"
             label="OTA URL"
@@ -142,11 +142,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { validateCurrentForm, restart } from '@/modules/utils'
 import { global, config } from '@/modules/pinia'
 import * as badge from '@/modules/badge'
 import { logError, logInfo } from '@/modules/logger'
+
+const otaUrl = computed({
+  get: () => config.ota_url.trim(),
+  set: val => { config.ota_url = val ? val.trim() : '' }
+})
 
 const otaOptions = ref([
   { label: '-blank-', value: '' },
