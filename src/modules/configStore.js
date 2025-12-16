@@ -41,6 +41,8 @@ export const useConfigStore = defineStore('config', {
       token: '',
       token2: '',
       sleep_interval: 0,
+      http_post_sleep_interval: 0,
+      ble_sleep_interval: 0,
       push_timeout: 0,
       skip_ssl_on_test: false,
       use_http_post: false,
@@ -107,6 +109,29 @@ export const useConfigStore = defineStore('config', {
       this.temp_adjustment_value = roundVal(this.temp_adjustment_value / 1.8, 2)
       this.formula_calibration_temp = roundVal(tempToC(this.formula_calibration_temp), 2)
       this.internal_temp_unit = 'C'
+    },
+    calculateIntervals() {
+      // 如果都关闭
+      if (!this.use_http_post && !this.use_ble) {
+        this.sleep_interval = 0;
+        this.http_post_int = 0;
+      }
+      // 如果只有 HTTP Post 开启
+      if (this.use_http_post && !this.use_ble) {
+        this.sleep_interval = this.http_post_sleep_interval;
+        this.http_post_int = 0;
+      }
+      // 如果只有蓝牙开启
+      if (!this.use_http_post && this.use_ble) {
+        this.sleep_interval = this.ble_sleep_interval;
+        this.http_post_int = 0;
+      }
+      // 如果两者都开启
+      if (this.use_http_post && this.use_ble) {
+        this.sleep_interval = Math.min(this.http_post_sleep_interval, this.ble_sleep_interval);
+        this.http_post_int = Math.floor(this.http_post_sleep_interval / this.sleep_interval) - 1;
+      }
+      this.http_post2_int = this.http_post_int; // 同步第二个 HTTP Post 的间隔
     },
     convertTempToF() {
       if (this.internal_temp_unit == 'F') return
@@ -187,6 +212,8 @@ export const useConfigStore = defineStore('config', {
           this.token = json.token
           this.token2 = json.token2
           this.sleep_interval = json.sleep_interval
+          this.http_post_sleep_interval = json.http_post_sleep_interval
+          this.ble_sleep_interval = json.ble_sleep_interval
           this.use_http_post = json.use_http_post
           this.use_ble = json.use_ble
           this.push_timeout = json.push_timeout
@@ -282,6 +309,7 @@ export const useConfigStore = defineStore('config', {
       logInfo('configStore.sendConfig()', 'Sending /api/config')
 
       this.convertTempToC() // Device use C internally
+      this.calculateIntervals() // 计算睡眠间隔和 http skip 次数
 
       const data = getConfigChanges()
       delete data.http_post_format_gravity

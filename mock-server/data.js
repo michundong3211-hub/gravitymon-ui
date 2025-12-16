@@ -34,6 +34,8 @@ export var configData = {
   token: 'mytoken1',
   token2: 'mytoken2',
   sleep_interval: 900,
+  http_post_sleep_interval: 890,
+  ble_sleep_interval: 30,
   use_http_post: true,
   use_ble: false,
   push_timeout: 10,
@@ -205,7 +207,7 @@ export var statusData = {
   gyro_family: 'MPU6050',
   // gyro_family: 'MPU6500',
   // gyro_family: 'ICM42670-p',
-  wifi_setup: false
+  wifi_setup: true
 }
 
 export var featureData = {
