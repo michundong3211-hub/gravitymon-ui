@@ -4,12 +4,12 @@
     <p class="h3">Push - Settings</p>
     <hr />
 
-    <BsMessage v-if="config.sleep_interval < 300" dismissable="true" message="" alert="warning">
+    <BsMessage v-if="config.http_post_sleep_interval < 300" dismissable="true" message="" alert="warning">
       A sleep-interval of less than 300 will reduce battery life, consider using 900
     </BsMessage>
 
     <BsMessage
-      v-if="config.gyro_temp && config.sleep_interval < 300"
+      v-if="config.gyro_temp && config.http_post_sleep_interval < 300"
       dismissable="true"
       message=""
       alert="warning"
@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-6">
           <BsInputNumber
-            v-model="config.sleep_interval"
+            v-model="config.http_post_sleep_interval"
             :label="'Sleep interval' + sleepLabel"
             unit="s"
             min="10"
@@ -154,7 +154,7 @@ import { global, config } from '@/modules/pinia'
 import { storeToRefs } from 'pinia'
 import { logDebug, logError } from '@/modules/logger'
 
-const { sleep_interval } = storeToRefs(config)
+const { http_post_sleep_interval } = storeToRefs(config)
 const batteryLife = ref('')
 const sleepLabel = ref('')
 
@@ -164,7 +164,7 @@ const save = () => {
   config.saveAll()
 }
 
-watch(sleep_interval, () => {
+watch(http_post_sleep_interval, () => {
   createSleepLabel()
   calculateBatteryLife()
 })
@@ -175,7 +175,7 @@ onMounted(() => {
 })
 
 const createSleepLabel = () => {
-  const s = Math.floor(sleep_interval.value / 60) + ' min ' + (sleep_interval.value % 60) + ' sec'
+  const s = Math.floor(http_post_sleep_interval.value / 60) + ' min ' + (http_post_sleep_interval.value % 60) + ' sec'
   sleepLabel.value = '(' + s + ')'
 }
 
@@ -245,7 +245,7 @@ const calculateBatteryLife = () => {
 
   // The deep sleep will consume approx 1mA per day.
   const powerPerDay =
-    ((24 * 3600) / (config.sleep_interval + rt)) * (rt / 3600) * pwrActive + pwrSleep
+    ((24 * 3600) / (config.http_post_sleep_interval + rt)) * (rt / 3600) * pwrActive + pwrSleep
   const days = batt / powerPerDay
 
   logDebug(
