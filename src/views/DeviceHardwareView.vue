@@ -59,14 +59,14 @@
             :disabled="global.disabled || !global.feature.charging"
           ></BsInputSwitch>
         </div>
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <BsInputSwitch
             v-model="config.battery_saving"
             label="Battery saving"
             help="When active, the sleep interval will be changed to 1 hour when battery drops below 25% (3.73V)"
             :disabled="global.disabled"
           ></BsInputSwitch>
-        </div>
+        </div> -->
         <div class="col-md-12">
           <hr />
         </div>

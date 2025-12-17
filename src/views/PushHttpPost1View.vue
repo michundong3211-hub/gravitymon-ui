@@ -87,18 +87,18 @@
             v-if="config.http_post_tcp === false"
           />
         </div>
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <BsInputNumber
             v-model="config.http_post_int"
             label="Skip interval"
             min="0"
-            max="5"
+            max="1000"
             width="4"
             help="Defines how many sleep cycles to skip between pushing data to this target, 1 = every second cycle. Default is 0."
             :disabled="pushDisabled"
             v-if="config.http_post_tcp === false"
           />
-        </div>
+        </div> -->
         <div class="col-md-9">
           <BsInputTextAreaFormat
             v-model="config.http_post_format_gravity"
