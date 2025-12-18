@@ -19,7 +19,7 @@
               v-model="config.ble_sleep_interval"
               :label="'Sleep interval' + sleepLabel"
               unit="s"
-              min="15"
+              min="60"
               max="3600"
               step="1"
               width="4"
