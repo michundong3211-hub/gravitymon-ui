@@ -55,7 +55,7 @@
           <BsInputSwitch
             v-model="config.charging_pin_enabled"
             label="Charging Pin Mode"
-            help="If enabled and the device will go into sleep when charging power exceeds 2V on the defined pin and wakeup when power is lost."
+            help="If enabled and the device will go into wifi mode when charging power exceeds 2V on the defined pin and wakeup when power is lost."
             :disabled="global.disabled || !global.feature.charging"
           ></BsInputSwitch>
         </div>
