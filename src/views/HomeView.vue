@@ -216,21 +216,7 @@
             </div>
           </BsCardSimple>
         </div>
-<!--        <div class="col-md-4">
-          <BsCardSimple header="Push Settings">
-            <div
-              class="d-flex align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/push/settings2"
-              >
-                Push Settings
-              </router-link>
-            </div>
-          </BsCardSimple>
-        </div>-->
+
         <div class="col-md-4">
           <BsCardSimple header="HTTP Post">
             <div
@@ -263,6 +249,55 @@
         </div>
 
         <div class="col-md-4">
+          <BsCardSimple header="Gravity Formula" title="">
+            <div
+              class="d-flex flex-column align-items-center justify-content-center"
+              style="height: 80px; gap: 1rem"
+            >
+              <router-link
+                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/gravity/formula2"
+              >
+                Gravity Formula Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
+          <BsCardSimple header="Device Hardware" title="">
+            <div
+              class="d-flex flex-column align-items-center justify-content-center"
+              style="height: 80px; gap: 1rem"
+            >
+              <router-link
+                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/hardware"
+              >
+                Device Hardware Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
+          <BsCardSimple header="Firmware" title="">
+            <div
+              class="d-flex flex-column align-items-center justify-content-center"
+              style="height: 80px; gap: 1rem"
+            >
+              <span class="text-center">Current Version: {{ global.app_ver }}</span>
+              <router-link
+                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/other/firmware"
+              >
+                Firmware Upload
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
           <BsCardSimple header="Device" title="">
             <div
               class="d-flex flex-column align-items-center justify-content-center"
@@ -283,36 +318,52 @@
             </div>
           </BsCardSimple>
         </div>
-
         <div class="col-md-4">
-          <BsCardSimple header="Gravity Formula" title="">
+          <BsCardSimple header="Measurement" v-if="status.self_check.gravity_formula">
             <div
               class="d-flex flex-column align-items-center justify-content-center"
               style="height: 80px; gap: 1rem"
             >
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/gravity/formula2"
-              >
-                Gravity Formula Settings
-              </router-link>
+              <span class="text-center">Gravity</span>
+              <span class="text-center">
+                {{ status.gravity }}
+                {{ status.gravity_unit === 'G' ? ' SG' : ' P' }}
+              </span>
+            </div>
+          </BsCardSimple>
+        </div>
+        <div class="col-md-4">
+          <BsCardSimple header="Measurement" v-if="status.self_check.temp_connected">
+            <div
+              class="d-flex flex-column align-items-center justify-content-center"
+              style="height: 80px; gap: 1rem"
+            >
+              <span class="text-center">Temperature</span>
+              <span class="text-center">{{ status.temp }} °{{ status.temp_unit }}</span>
             </div>
           </BsCardSimple>
         </div>
 
         <div class="col-md-4">
-          <BsCardSimple header="Firmware" title="">
+          <BsCardSimple header="Measurement" v-if="status.self_check.battery_level">
             <div
               class="d-flex flex-column align-items-center justify-content-center"
               style="height: 80px; gap: 1rem"
             >
-              <span class="text-center">Current Version: {{ global.app_ver }}</span>
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/other/firmware"
-              >
-                Firmware Upload
-              </router-link>
+              <span class="text-center">Battery</span>
+              <span class="text-center">{{ status.battery }} V</span>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
+          <BsCardSimple header="Measurement">
+            <div
+              class="d-flex flex-column align-items-center justify-content-center"
+              style="height: 80px; gap: 1rem"
+            >
+              <span class="text-center">WIFI Signal</span>
+              <span class="text-center">{{ status.rssi }} dBm - {{ status.wifi_ssid }}</span>
             </div>
           </BsCardSimple>
         </div>
