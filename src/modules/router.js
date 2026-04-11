@@ -9,6 +9,7 @@ import HomeView from '@/views/HomeView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import DeviceSettingsView from '@/views/DeviceSettingsView.vue'
 import DeviceHardwareView from '@/views/DeviceHardwareView.vue'
+import DeviceBatteryView from '@/views/DeviceBatteryView.vue'
 import DeviceGyroView from '@/views/DeviceGyroView.vue'
 import DeviceWifiView from '@/views/DeviceWifiView.vue'
 import DeviceWifi2View from '@/views/DeviceWifi2View.vue'
@@ -61,6 +62,11 @@ const routes = [
     path: '/device/wifi2',
     name: 'device-wifi-manual',
     component: DeviceWifi2View
+  },
+  {
+    path: '/device/battery',
+    name: 'device-battery',
+    component: DeviceBatteryView
   },
   {
     path: '/other/backup',

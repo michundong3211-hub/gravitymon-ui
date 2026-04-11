@@ -3,21 +3,11 @@
     <p></p>
 
     <template v-if="status">
-      <BsMessage
-        v-if="!status.self_check.push_targets"
-        dismissable="true"
-        message=""
-        alert="danger"
-      >
+      <BsMessage v-if="!status.self_check.push_targets" dismissable="true" message="" alert="danger">
         No remote services are active. Check your push settings and enable at least one service.
       </BsMessage>
 
-      <BsMessage
-        v-if="!status.self_check.gyro_connected && isConfigMode"
-        dismissable="true"
-        message=""
-        alert="danger"
-      >
+      <BsMessage v-if="!status.self_check.gyro_connected && isConfigMode" dismissable="true" message="" alert="danger">
         No gyro is detected. Try to reboot / power-off. If this persists, check for hardware issues.
       </BsMessage>
     </template>
@@ -37,22 +27,17 @@
           <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
             <p class="text-center">
               Missing
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/gravity/formula"
-                >formula
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/gravity/formula">formula
               </router-link>
               , unable to calculate gravity
             </p>
           </BsCard>
         </div>
 
-        <div
-          class="col-md-4"
-          v-if="
-            status.self_check.gyro_calibration && status.self_check.gyro_connected && isConfigMode
-          "
-        >
+        <div class="col-md-4" v-if="
+          status.self_check.gyro_calibration && status.self_check.gyro_connected && isConfigMode
+        ">
           <BsCard header="Measurement" color="info" title="Angle">
             <p class="text-center">
               <template v-if="status.self_check.gyro_moving"> Gyro is moving</template>
@@ -62,21 +47,13 @@
             </p>
           </BsCard>
         </div>
-        <div
-          class="col-md-4"
-          v-if="
-            status.self_check.gyro_calibration && status.self_check.gyro_connected && isConfigMode
-          "
-        >
+        <div class="col-md-4" v-if="
+          status.self_check.gyro_calibration && status.self_check.gyro_connected && isConfigMode
+        ">
           <BsCard header="Measurement" color="info" title="Average Angle">
             <p class="text-center">
               {{ angle.average }} ({{ angle.count }})
-              <button
-                @click="clearAverage"
-                type="button"
-                class="btn btn-outline-info btn-sm"
-                style="font-size: 0.7rem"
-              >
+              <button @click="clearAverage" type="button" class="btn btn-outline-info btn-sm" style="font-size: 0.7rem">
                 Clear
               </button>
             </p>
@@ -86,10 +63,8 @@
           <BsCard header="Measurement" title="Error" :iserr="true" icon="bi-x-circle">
             <p class="text-center">
               Gyro has not been
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/device/gyro"
-                >calibrated
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/gyro">calibrated
               </router-link>
               at 90 degrees
             </p>
@@ -145,12 +120,8 @@
           <BsCard header="Device" title="Upgrade available">
             <p class="text-center">
               {{ newVersion.ver }} available on
-              <a
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                href="https://github.com/mp-se/gravitymon/releases"
-                target="_blank"
-                >github.com</a
-              >
+              <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                href="https://github.com/mp-se/gravitymon/releases" target="_blank">github.com</a>
             </p>
           </BsCard>
         </div>
@@ -202,15 +173,10 @@
       <div class="row gy-4" v-else>
         <div class="col-md-4">
           <BsCardSimple header="WIFI">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">{{ status.wifi_ssid }}</span>
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/device/wifi"
-              >
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/wifi">
                 WIFI Settings
               </router-link>
             </div>
@@ -219,14 +185,9 @@
 
         <div class="col-md-4">
           <BsCardSimple header="HTTP Post">
-            <div
-              class="d-flex align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/push/http-post"
-              >
+            <div class="d-flex align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/http-post">
                 HTTP Post Settings
               </router-link>
             </div>
@@ -234,14 +195,9 @@
         </div>
         <div class="col-md-4" v-if="!global.isEsp8266">
           <BsCardSimple header="Bluetooth" title="">
-            <div
-              class="d-flex align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/push/bluetooth"
-              >
+            <div class="d-flex align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/bluetooth">
                 Bluetooth Settings
               </router-link>
             </div>
@@ -250,14 +206,9 @@
 
         <div class="col-md-4">
           <BsCardSimple header="Gravity Formula" title="">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/gravity/formula2"
-              >
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/gravity/formula2">
                 Gravity Formula Settings
               </router-link>
             </div>
@@ -265,32 +216,11 @@
         </div>
 
         <div class="col-md-4">
-          <BsCardSimple header="Device Hardware" title="">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/device/hardware"
-              >
-                Device Hardware Settings
-              </router-link>
-            </div>
-          </BsCardSimple>
-        </div>
-
-        <div class="col-md-4">
           <BsCardSimple header="Firmware" title="">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">Current Version: {{ global.app_ver }}</span>
-              <router-link
-                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                to="/other/firmware"
-              >
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/other/firmware">
                 Firmware Upload
               </router-link>
             </div>
@@ -298,32 +228,44 @@
         </div>
 
         <div class="col-md-4">
+          <BsCardSimple header="Battery" v-if="status.self_check.battery_level">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <span class="text-center">{{ status.battery }} V</span>
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/battery">
+                Battery Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
+          <BsCardSimple header="Device">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <span class="text-center">Force config mode</span>
+              <div class="form-check form-switch" style="height: 0.7rem">
+                <input v-model="flag" class="form-check-input" type="checkbox" role="switch" />
+              </div>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
           <BsCardSimple header="Device" title="">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">
                 {{ status.id }}
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary btn-sm mx-2"
-                  @click="copyId"
-                  style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0"
-                >
+                <button type="button" class="btn btn-outline-secondary btn-sm mx-2" @click="copyId"
+                  style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0">
                   {{ copied ? 'Copied!' : 'Copy ID' }}
                 </button>
               </span>
-              <span class="text-center">IP Address: {{ status.ip }}</span>
             </div>
           </BsCardSimple>
         </div>
         <div class="col-md-4">
           <BsCardSimple header="Measurement" v-if="status.self_check.gravity_formula">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">Gravity</span>
               <span class="text-center">
                 {{ status.gravity }}
@@ -334,10 +276,7 @@
         </div>
         <div class="col-md-4">
           <BsCardSimple header="Measurement" v-if="status.self_check.temp_connected">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">Temperature</span>
               <span class="text-center">{{ status.temp }} °{{ status.temp_unit }}</span>
             </div>
@@ -345,25 +284,15 @@
         </div>
 
         <div class="col-md-4">
-          <BsCardSimple header="Measurement" v-if="status.self_check.battery_level">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
-              <span class="text-center">Battery</span>
-              <span class="text-center">{{ status.battery }} V</span>
-            </div>
-          </BsCardSimple>
-        </div>
-
-        <div class="col-md-4">
           <BsCardSimple header="Measurement">
-            <div
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 80px; gap: 1rem"
-            >
-              <span class="text-center">WIFI Signal</span>
-              <span class="text-center">{{ status.rssi }} dBm - {{ status.wifi_ssid }}</span>
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <span class="text-center">Angle</span>
+              <span class="text-center">
+                <template v-if="status.self_check.gyro_moving">Gyro is moving</template>
+                <template v-else>
+                  {{ status.angle }}
+                </template>
+              </span>
             </div>
           </BsCardSimple>
         </div>
@@ -390,7 +319,7 @@ const newVersion = ref({ new: false, ver: '' })
 const isConfigMode = computed(() => status.wifi_setup === false || global.forceConfigMode)
 
 watch(flag, async () => {
-  status.setSleepMode(flag.value, () => {})
+  status.setSleepMode(flag.value, () => { })
 })
 
 function clearAverage() {
