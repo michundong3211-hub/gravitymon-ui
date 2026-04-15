@@ -227,8 +227,8 @@
           </BsCardSimple>
         </div>
 
-        <div class="col-md-4">
-          <BsCardSimple header="Battery" v-if="status.self_check.battery_level">
+        <div class="col-md-4" v-if="status.self_check.battery_level">
+          <BsCardSimple header="Battery">
             <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">{{ status.battery }} V</span>
               <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
@@ -259,39 +259,6 @@
                   style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0">
                   {{ copied ? 'Copied!' : 'Copy ID' }}
                 </button>
-              </span>
-            </div>
-          </BsCardSimple>
-        </div>
-        <div class="col-md-4">
-          <BsCardSimple header="Measurement" v-if="status.self_check.gravity_formula">
-            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
-              <span class="text-center">Gravity</span>
-              <span class="text-center">
-                {{ status.gravity }}
-                {{ status.gravity_unit === 'G' ? ' SG' : ' P' }}
-              </span>
-            </div>
-          </BsCardSimple>
-        </div>
-        <div class="col-md-4">
-          <BsCardSimple header="Measurement" v-if="status.self_check.temp_connected">
-            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
-              <span class="text-center">Temperature</span>
-              <span class="text-center">{{ status.temp }} °{{ status.temp_unit }}</span>
-            </div>
-          </BsCardSimple>
-        </div>
-
-        <div class="col-md-4">
-          <BsCardSimple header="Measurement">
-            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
-              <span class="text-center">Angle</span>
-              <span class="text-center">
-                <template v-if="status.self_check.gyro_moving">Gyro is moving</template>
-                <template v-else>
-                  {{ status.angle }}
-                </template>
               </span>
             </div>
           </BsCardSimple>
