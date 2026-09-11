@@ -138,18 +138,19 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { isGyroCalibrated, validateCurrentForm, restart } from '@/modules/utils'
 import { global, config, status } from '@/modules/pinia'
 import * as badge from '@/modules/badge'
 import { logDebug, logError, logInfo } from '@/modules/logger'
 import { storeToRefs } from 'pinia'
 
-const gyroOptions = ref([
-  // value 0 is used internally at startup to check if gyro has been defined.
-  { label: 'MPU 6050/6500', value: 1 },
-  { label: 'ICM42670-p', value: 2 }
-])
+const gyroOptions = computed(() => {
+  // The hardware only uses one gyro per platform (8266=MPU6050, ESP32=ICM42670p),
+  // firmware enforces the platform type so only that option is shown.
+  if (global.isEsp8266) return [{ label: 'MPU 6050/6500', value: 1 }]
+  return [{ label: 'ICM42670-p', value: 2 }]
+})
 
 const calibrationValues = computed(() => {
   if (config.gyro_type == 1) return JSON.stringify(config.gyro_calibration_data)
