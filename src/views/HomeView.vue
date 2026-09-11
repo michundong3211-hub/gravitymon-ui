@@ -240,17 +240,6 @@
         </div>
 
         <div class="col-md-4">
-          <BsCardSimple header="Device">
-            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
-              <span class="text-center">Force config mode</span>
-              <div class="form-check form-switch" style="height: 0.7rem">
-                <input v-model="flag" class="form-check-input" type="checkbox" role="switch" />
-              </div>
-            </div>
-          </BsCardSimple>
-        </div>
-
-        <div class="col-md-4">
           <BsCardSimple header="Device" title="">
             <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">

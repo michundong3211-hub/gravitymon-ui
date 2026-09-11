@@ -103,7 +103,22 @@
         </ul>
       </div>
       <!-- 保留这个是为了样式留白 -->
-      <div class="collapse navbar-collapse" id="navbar" v-else></div>
+      <div class="collapse navbar-collapse" id="navbar" v-else>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link
+              :class="[
+                'nav-link',
+                $router.currentRoute.value.path.split('/')[1] === 'other' ? ' active fw-bold' : ''
+              ]"
+              to="/other/about"
+              :disabled="disabled"
+            >
+              About
+            </router-link>
+          </li>
+        </ul>
+      </div>
 
       <!--
       <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white"></div>
