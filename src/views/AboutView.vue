@@ -6,7 +6,7 @@
 
     <p class="h4">Based on GravityMon</p>
     <p class="fw-normal">
-      This product (CuckooTilt) is based on
+      CuckooTilt is a product by Cuckoo (ckbrew.com). It is based on
       <a class="link-primary" href="https://github.com/mp-se/gravitymon" target="_blank">GravityMon</a>
       by Magnus Persson (mp-se) and has been modified for the Cuckoo brewing platform. It is used
       and distributed under a commercial license obtained from the author. Cuckoo (ckbrew.com) is

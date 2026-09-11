@@ -74,10 +74,9 @@
   <router-view v-if="global.initialized" />
 
   <div class="container-fluid text-center text-secondary small pt-3">
-    CuckooTilt · Based on
+    CuckooTilt · by Cuckoo (ckbrew.com) · Based on
     <a class="link-secondary" href="https://github.com/mp-se/gravitymon" target="_blank">GravityMon</a>
-    © Magnus Persson · Corporate sponsor:
-    <a class="link-secondary" href="https://ckbrew.com" target="_blank">ckbrew.com</a>
+    © Magnus Persson
   </div>
 </template>
 
