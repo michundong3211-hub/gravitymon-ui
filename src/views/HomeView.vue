@@ -263,7 +263,21 @@
             </div>
           </BsCardSimple>
         </div>
+
+        <div class="col-md-4">
+          <BsCardSimple header="Device" title="Restore defaults">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <button type="button" class="btn btn-secondary" :disabled="global.disabled"
+                @click="confirmRestoreDefaults()">
+                Restore default settings
+              </button>
+            </div>
+          </BsCardSimple>
+        </div>
       </div>
+
+      <BsModalConfirm :callback="confirmRestoreCallback" :message="confirmRestoreMessage"
+        id="restoreDefaults" title="Restore default settings" />
     </div>
   </div>
 </template>
@@ -375,6 +389,59 @@ function copyId() {
     setTimeout(() => {
       copied.value = false
     }, 1500)
+  }
+}
+
+const confirmRestoreMessage = ref('')
+
+const confirmRestoreCallback = (result) => {
+  if (result) factory()
+}
+
+const confirmRestoreDefaults = () => {
+  confirmRestoreMessage.value =
+    'Do you really want to restore default settings? WiFi settings are kept, all other settings are lost and the device will restart.'
+  document.getElementById('restoreDefaults').click()
+}
+
+const factory = async () => {
+  global.clearMessages()
+  logInfo('HomeView.factory()', 'Sending /api/factory')
+  global.disabled = true
+
+  try {
+    const response = await fetch(global.baseURL + 'api/factory', {
+      headers: { Authorization: global.token },
+      signal: AbortSignal.timeout(global.fetchTimout)
+    })
+    const json = await response.json()
+
+    if (json.success == true) {
+      global.messageSuccess = json.message
+      const reloadTimeout = setTimeout(() => {
+        try {
+          location.reload(true)
+        } catch (error) {
+          logError('HomeView.factory.reload()', error)
+          window.location.reload()
+        }
+      }, 2000)
+
+      window.addEventListener(
+        'beforeunload',
+        () => {
+          clearTimeout(reloadTimeout)
+        },
+        { once: true }
+      )
+    } else {
+      global.messageError = json.message
+    }
+  } catch (err) {
+    logError('HomeView.factory()', err)
+    global.messageError = 'Failed to do factory restore'
+  } finally {
+    global.disabled = false
   }
 }
 </script>
