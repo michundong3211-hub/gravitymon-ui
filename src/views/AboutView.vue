@@ -9,7 +9,8 @@
       This product (CuckooTilt) is based on
       <a class="link-primary" href="https://github.com/mp-se/gravitymon" target="_blank">GravityMon</a>
       by Magnus Persson (mp-se) and has been modified for the Cuckoo brewing platform. It is used
-      and distributed under a commercial license obtained from the author.
+      and distributed under a commercial license obtained from the author. Cuckoo (ckbrew.com) is
+      a corporate sponsor of the GravityMon project.
     </p>
 
     <p class="h4">License & Attribution</p>
