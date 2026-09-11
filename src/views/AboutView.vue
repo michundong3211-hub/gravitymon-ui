@@ -4,9 +4,18 @@
     <p class="h3">About - CuckooTilt</p>
     <hr />
 
+    <p class="h4">Based on GravityMon</p>
     <p class="fw-normal">
-      This is a piece of software for the iSpindle hardware and will work in a similar way. No part
-      of this software is copied from the iSpindle project.
+      This product (CuckooTilt) is based on
+      <a class="link-primary" href="https://github.com/mp-se/gravitymon" target="_blank">GravityMon</a>
+      by Magnus Persson (mp-se) and has been modified for the Cuckoo brewing platform. It is used
+      and distributed under a commercial license obtained from the author.
+    </p>
+
+    <p class="h4">License & Attribution</p>
+    <p class="fw-normal">
+      GravityMon is Copyright (c) 2021-2025 Magnus Persson, originally released under the MIT
+      License. The original copyright notice and permission notice are retained below as required.
     </p>
 
     <p class="h4">MIT License</p>
@@ -25,5 +34,7 @@
       ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
       SOFTWARE.
     </p>
+
+    <p class="fw-normal">Copyright (c) 2021-2025 Magnus Persson</p>
   </div>
 </template>
