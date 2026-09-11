@@ -56,6 +56,15 @@
             </div>
           </details>
         </div>
+        <div class="col-md-3">
+          <BsDropdown
+            label="Predefined formats"
+            button="Formats"
+            :options="httpPostFormatOptions"
+            :callback="httpFormatCallback"
+            :disabled="pushDisabled"
+          />
+        </div>
       </div>
       <div class="row gy-2">
         <div class="col-md-12">
@@ -97,7 +106,7 @@
 
 <script setup>
 import { config, global, status } from '@/modules/pinia'
-import { applyTemplate, validateCurrentForm } from '@/modules/utils'
+import { applyTemplate, httpPostFormatOptions, validateCurrentForm } from '@/modules/utils'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref, watch } from 'vue'
 import { logError } from '@/modules/logger.js'
@@ -129,6 +138,10 @@ const pushDisabled = computed(() => {
 
 const renderFormat2 = () => {
   render.value = applyTemplate(status, config, config.http_post2_format_gravity)
+}
+
+const httpFormatCallback = (opt) => {
+  config.http_post2_format_gravity = decodeURIComponent(opt)
 }
 
 const save = () => {
