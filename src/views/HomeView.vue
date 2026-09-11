@@ -227,7 +227,7 @@
           </BsCardSimple>
         </div>
 
-        <div class="col-md-4" v-if="status.self_check.battery_level">
+        <div class="col-md-4">
           <BsCardSimple header="Battery">
             <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">{{ status.battery }} V</span>
