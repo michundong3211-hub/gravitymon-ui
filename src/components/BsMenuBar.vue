@@ -102,8 +102,7 @@
           </template>
         </ul>
       </div>
-      <!-- 保留这个是为了样式留白 -->
-      <div class="collapse navbar-collapse" id="navbar" v-else>
+      <div v-else>
         <ul class="navbar-nav">
           <li class="nav-item">
             <router-link
