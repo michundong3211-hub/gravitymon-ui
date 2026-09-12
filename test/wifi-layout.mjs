@@ -11,8 +11,10 @@ try {
   const { global, status } = await server.ssrLoadModule('/src/modules/pinia.js')
   const { default: Menu } = await server.ssrLoadModule('/src/components/WifiMenuBar.vue')
   const { default: Home } = await server.ssrLoadModule('/src/views/HomeView.vue')
-  const render = async component => {
+  const { default: Tools } = await server.ssrLoadModule('/src/views/WifiToolsView.vue')
+  const render = async (component, path = '/') => {
     const app = createSSRApp(component)
+    app.config.globalProperties.$route = { path }
     app.component('RouterLink', { props: ['to'], setup: (props, { slots }) => () => h('a', { href: props.to }, slots.default?.()) })
     for (const name of ['BsCard', 'BsMessage', 'BsModalConfirm']) {
       app.component(name, { setup: (_, { slots }) => () => h('div', { 'data-component': name }, slots.default?.()) })
@@ -22,16 +24,27 @@ try {
   status.wifi_setup = true
   global.platform = 'ESP32C3'
   let html = await render(Menu)
-  for (const path of ['/device/wifi', '/push/http-post', '/push/bluetooth', '/gravity/formula2', '/device/battery', '/other/firmware', '/other/about']) {
+  for (const path of ['/device/wifi', '/push/http-post', '/push/bluetooth', '/gravity/formula2', '/device/battery', '/other/wifi-tools']) {
     assert.ok(html.includes(`href="${path}"`), path)
   }
   assert.ok(!html.includes('type="checkbox"'))
+  assert.ok(!html.includes('href="/other/firmware"'))
+  assert.ok(!html.includes('href="/other/about"'))
+  for (const path of ['/other/firmware', '/other/about']) {
+    assert.match(await render(Menu, path), /href="\/other\/wifi-tools" class="[^"]*wifi-nav-active/)
+  }
+  html = await render(Tools)
+  assert.ok(html.includes('href="/other/firmware"'))
+  assert.ok(html.includes('href="/other/about"'))
+  assert.ok(html.includes('Restore defaults'))
+  assert.ok(html.includes('data-component="BsModalConfirm"'))
   global.platform = 'ESP8266'
   assert.ok(!(await render(Menu)).includes('/push/bluetooth'))
   status.battery = 0
   status.wifi_ssid = ''
   html = await render(Home)
   assert.ok(html.includes('Device overview'))
+  assert.ok(!html.includes('Restore defaults'))
   assert.ok(html.includes('Not connected'))
   assert.ok(html.includes('>0 <span'))
   assert.ok(!html.includes('data-component="BsCard"'))

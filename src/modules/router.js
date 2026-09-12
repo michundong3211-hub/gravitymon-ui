@@ -31,8 +31,14 @@ import FirmwareView from '@/views/FirmwareView.vue'
 import SupportView from '@/views/SupportView.vue'
 import SerialView from '@/views/SerialView.vue'
 import ToolsView from '@/views/ToolsView.vue'
+import WifiToolsView from '@/views/WifiToolsView.vue'
 
 const routes = [
+  {
+    path: '/other/wifi-tools',
+    name: 'wifi-tools',
+    component: WifiToolsView
+  },
   {
     path: '/',
     name: 'home',

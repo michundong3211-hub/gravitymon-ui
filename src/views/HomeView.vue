@@ -201,18 +201,8 @@
           </section>
         </div>
 
-        <section class="wifi-restore" aria-labelledby="restore-heading">
-          <div>
-            <h2 id="restore-heading">Restore default settings</h2>
-            <p class="text-secondary mb-0">Keep WIFI credentials, reset other settings and restart the device.</p>
-          </div>
-          <button type="button" class="btn btn-outline-secondary" :disabled="global.disabled"
-            @click="confirmRestoreDefaults()">Restore defaults</button>
-        </section>
       </main>
 
-      <BsModalConfirm :callback="confirmRestoreCallback" :message="confirmRestoreMessage"
-        id="restoreDefaults" title="Restore default settings" />
     </div>
   </div>
 </template>
@@ -223,7 +213,7 @@ import { global, status, config } from '@/modules/pinia'
 import { logDebug, logError, logInfo } from '@/modules/logger'
 import { useTimers } from '@/composables/useTimers'
 import { useFetch } from '@/composables/useFetch'
-import { copyToClipboard, restoreFactoryDefaults as factory } from '@/modules/utils.js'
+import { copyToClipboard } from '@/modules/utils.js'
 
 const { createInterval, createTimeout } = useTimers()
 const { managedFetch } = useFetch()
@@ -327,19 +317,6 @@ function copyId() {
   }
 }
 
-const confirmRestoreMessage = ref('')
-
-const confirmRestoreCallback = (result) => {
-  if (result) factory()
-}
-
-const confirmRestoreDefaults = () => {
-  confirmRestoreMessage.value =
-    'Do you really want to restore default settings? WiFi settings are kept, all other settings are lost and the device will restart.'
-  document.getElementById('restoreDefaults').click()
-}
-
-
 </script>
 
 <style scoped>
@@ -354,15 +331,10 @@ const confirmRestoreDefaults = () => {
 .wifi-details dt { color: #5e6863; font-size: 14px; font-weight: 400; }
 .wifi-details dd { margin: 0; font-size: 15px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .wifi-id-value { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.wifi-restore { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid #e4e7e5; margin-top: 32px; padding-top: 24px; }
-.wifi-restore h2 { margin-bottom: 8px; }
-.wifi-restore p { font-size: 14px; }
-.wifi-restore button { flex-shrink: 0; }
 @media (max-width: 767px) {
   .wifi-info-sections { grid-template-columns: 1fr; gap: 28px; }
   .wifi-page-heading { padding-top: 12px; }
   .wifi-page-heading h1 { font-size: 26px; }
   .wifi-details > div { grid-template-columns: 126px minmax(0, 1fr); }
-  .wifi-restore { align-items: flex-start; flex-direction: column; gap: 16px; }
 }
 </style>
