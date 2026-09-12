@@ -345,3 +345,43 @@ export function copyToClipboard(text) {
   document.body.removeChild(input)
   return result
 }
+export const restoreFactoryDefaults = async () => {
+  global.clearMessages()
+  logInfo('Utils.restoreFactoryDefaults()', 'Sending /api/factory')
+  global.disabled = true
+
+  try {
+    const response = await fetch(global.baseURL + 'api/factory', {
+      headers: { Authorization: global.token },
+      signal: AbortSignal.timeout(global.fetchTimout)
+    })
+    const json = await response.json()
+
+    if (json.success == true) {
+      global.messageSuccess = json.message
+      const reloadTimeout = setTimeout(() => {
+        try {
+          location.reload(true)
+        } catch (error) {
+          logError('Utils.restoreFactoryDefaults.reload()', error)
+          window.location.reload()
+        }
+      }, 2000)
+
+      window.addEventListener(
+        'beforeunload',
+        () => {
+          clearTimeout(reloadTimeout)
+        },
+        { once: true }
+      )
+    } else {
+      global.messageError = json.message
+    }
+  } catch (err) {
+    logError('Utils.restoreFactoryDefaults()', err)
+    global.messageError = 'Failed to do factory restore'
+  } finally {
+    global.disabled = false
+  }
+}

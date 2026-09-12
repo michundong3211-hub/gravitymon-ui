@@ -277,7 +277,7 @@ import { global, status, config } from '@/modules/pinia'
 import { logDebug, logError, logInfo } from '@/modules/logger'
 import { useTimers } from '@/composables/useTimers'
 import { useFetch } from '@/composables/useFetch'
-import { copyToClipboard } from '@/modules/utils.js'
+import { copyToClipboard, restoreFactoryDefaults as factory } from '@/modules/utils.js'
 
 const { createInterval, createTimeout } = useTimers()
 const { managedFetch } = useFetch()
@@ -393,46 +393,7 @@ const confirmRestoreDefaults = () => {
   document.getElementById('restoreDefaults').click()
 }
 
-const factory = async () => {
-  global.clearMessages()
-  logInfo('HomeView.factory()', 'Sending /api/factory')
-  global.disabled = true
 
-  try {
-    const response = await fetch(global.baseURL + 'api/factory', {
-      headers: { Authorization: global.token },
-      signal: AbortSignal.timeout(global.fetchTimout)
-    })
-    const json = await response.json()
-
-    if (json.success == true) {
-      global.messageSuccess = json.message
-      const reloadTimeout = setTimeout(() => {
-        try {
-          location.reload(true)
-        } catch (error) {
-          logError('HomeView.factory.reload()', error)
-          window.location.reload()
-        }
-      }, 2000)
-
-      window.addEventListener(
-        'beforeunload',
-        () => {
-          clearTimeout(reloadTimeout)
-        },
-        { once: true }
-      )
-    } else {
-      global.messageError = json.message
-    }
-  } catch (err) {
-    logError('HomeView.factory()', err)
-    global.messageError = 'Failed to do factory restore'
-  } finally {
-    global.disabled = false
-  }
-}
 </script>
 
 <style></style>

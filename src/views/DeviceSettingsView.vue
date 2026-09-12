@@ -143,10 +143,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { validateCurrentForm, restart } from '@/modules/utils'
+import { validateCurrentForm, restart, restoreFactoryDefaults as factory } from '@/modules/utils'
 import { global, config } from '@/modules/pinia'
 import * as badge from '@/modules/badge'
-import { logError, logInfo } from '@/modules/logger'
 
 const otaUrl = computed({
   get: () => config.ota_url.trim(),
@@ -175,44 +174,6 @@ const uiOptions = ref([
 
 const otaCallback = (opt) => {
   config.ota_url = opt
-}
-
-const factory = async () => {
-  global.clearMessages()
-  logInfo('DeviceSettingsView.factory()', 'Sending /api/factory')
-  global.disabled = true
-  
-  try {
-    const response = await fetch(global.baseURL + 'api/factory', {
-      headers: { Authorization: global.token },
-      signal: AbortSignal.timeout(global.fetchTimout)
-    })
-    const json = await response.json()
-    
-    if (json.success == true) {
-      global.messageSuccess = json.message
-      const reloadTimeout = setTimeout(() => {
-        try {
-          location.reload(true)
-        } catch (error) {
-          logError('DeviceSettingsView.factory.reload()', error)
-          window.location.reload()
-        }
-      }, 2000)
-      
-      // Clean up timeout on component unmount
-      window.addEventListener('beforeunload', () => {
-        clearTimeout(reloadTimeout)
-      }, { once: true })
-    } else {
-      global.messageFailed = json.message
-    }
-  } catch (err) {
-    logError('DeviceSettingsView.factory()', err)
-    global.messageError = 'Failed to do factory restore'
-  } finally {
-    global.disabled = false
-  }
 }
 
 const saveSettings = () => {
