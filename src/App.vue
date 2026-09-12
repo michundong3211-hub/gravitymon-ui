@@ -1,82 +1,87 @@
 <template>
-  <dialog id="spinner" class="loading">
-    <div class="container text-center">
-      <div class="row align-items-center" style="height: 170px">
-        <div class="col">
-          <div class="spinner-border" role="status" style="width: 5rem; height: 5rem">
-            <span class="visually-hidden">Loading...</span>
+  <div :class="{ 'wifi-shell': isWifiMode }">
+    <dialog id="spinner" class="loading">
+      <div class="container text-center">
+        <div class="row align-items-center" style="height: 170px">
+          <div class="col">
+            <div class="spinner-border" role="status" style="width: 5rem; height: 5rem">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
         </div>
       </div>
+    </dialog>
+
+    <div v-if="!global.initialized" class="container text-center">
+      <BsMessage
+        message="Initalizing CuckooTilt Web interface"
+        class="h2"
+        :dismissable="false"
+        alert="info"
+      ></BsMessage>
     </div>
-  </dialog>
 
-  <div v-if="!global.initialized" class="container text-center">
-    <BsMessage
-      message="Initalizing CuckooTilt Web interface"
-      class="h2"
-      :dismissable="false"
-      alert="info"
-    ></BsMessage>
-  </div>
+    <template v-if="global.initialized">
+      <WifiMenuBar v-if="isWifiMode" />
+      <BsMenuBar v-else :disabled="global.disabled" brand="CuckooTilt" />
+    </template>
 
-  <BsMenuBar v-if="global.initialized" :disabled="global.disabled" brand="CuckooTilt" />
+    <div class="container">
+      <div>
+        <p></p>
+      </div>
+      <BsMessage
+        v-if="!status.connected"
+        message="No response from device, has it gone into sleep model? No need to refresh the page, just turn on the device again"
+        class="h2"
+        :dismissable="false"
+        alert="danger"
+      ></BsMessage>
 
-  <div class="container">
-    <div>
-      <p></p>
+      <BsMessage
+        v-if="global.isError"
+        :close="close"
+        :dismissable="true"
+        :message="global.messageError"
+        alert="danger"
+      />
+      <BsMessage
+        v-if="global.isWarning"
+        :close="close"
+        :dismissable="true"
+        :message="global.messageWarning"
+        alert="warning"
+      />
+      <BsMessage
+        v-if="global.isSuccess"
+        :close="close"
+        :dismissable="true"
+        :message="global.messageSuccess"
+        alert="success"
+      />
+      <BsMessage
+        v-if="global.isInfo"
+        :close="close"
+        :dismissable="true"
+        :message="global.messageInfo"
+        alert="info"
+      />
+
+      <BsMessage v-if="status.ispindel_config" :dismissable="true" alert="info">
+        iSpindel configuration found,
+        <router-link class="alert-link" to="/device/gyro">import</router-link>
+        formula/gyro or
+        <router-link class="alert-link" to="/other/support">delete</router-link> the configuration.
+      </BsMessage>
     </div>
-    <BsMessage
-      v-if="!status.connected"
-      message="No response from device, has it gone into sleep model? No need to refresh the page, just turn on the device again"
-      class="h2"
-      :dismissable="false"
-      alert="danger"
-    ></BsMessage>
 
-    <BsMessage
-      v-if="global.isError"
-      :close="close"
-      :dismissable="true"
-      :message="global.messageError"
-      alert="danger"
-    />
-    <BsMessage
-      v-if="global.isWarning"
-      :close="close"
-      :dismissable="true"
-      :message="global.messageWarning"
-      alert="warning"
-    />
-    <BsMessage
-      v-if="global.isSuccess"
-      :close="close"
-      :dismissable="true"
-      :message="global.messageSuccess"
-      alert="success"
-    />
-    <BsMessage
-      v-if="global.isInfo"
-      :close="close"
-      :dismissable="true"
-      :message="global.messageInfo"
-      alert="info"
-    />
+    <router-view v-if="global.initialized" />
 
-    <BsMessage v-if="status.ispindel_config" :dismissable="true" alert="info">
-      iSpindel configuration found,
-      <router-link class="alert-link" to="/device/gyro">import</router-link>
-      formula/gyro or
-      <router-link class="alert-link" to="/other/support">delete</router-link> the configuration.
-    </BsMessage>
-  </div>
-
-  <router-view v-if="global.initialized" />
-
-  <div class="container-fluid text-center text-secondary small pt-3">
-    CuckooTilt · by Cuckoo (ckbrew.com) · Based on
-    <a class="link-secondary" href="https://github.com/mp-se/gravitymon" target="_blank">GravityMon</a>
-    © Magnus Persson
+    <div class="container-fluid text-center text-secondary small pt-3">
+      CuckooTilt · by Cuckoo (ckbrew.com) · Based on
+      <a class="link-secondary" href="https://github.com/mp-se/gravitymon" target="_blank">GravityMon</a>
+      © Magnus Persson
+    </div>
   </div>
 </template>
 
@@ -84,9 +89,12 @@
 import { useTimers } from '@/composables/useTimers'
 import { logError } from '@/modules/logger'
 import { storeToRefs } from 'pinia'
-import { onBeforeMount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import BsMenuBar from './components/BsMenuBar.vue'
+import WifiMenuBar from './components/WifiMenuBar.vue'
 import { config, global, saveConfigState, status } from './modules/pinia'
+
+const isWifiMode = computed(() => status.wifi_setup === true && !global.forceConfigMode)
 
 const { createInterval } = useTimers()
 const polling = ref(null)
@@ -200,5 +208,15 @@ function hideSpinner() {
 dialog::backdrop {
   background-color: black;
   opacity: 60%;
+}
+.wifi-shell { min-height: 100vh; color: #263b30; background: #fff; }
+.wifi-shell > .container { max-width: 1080px; padding-inline: 20px; }
+.wifi-shell > .container-fluid { border-top: 1px solid #e4e7e5; margin-top: 40px; padding: 20px; font-size: 12px; line-height: 1.8; }
+.wifi-shell .btn { min-height: 44px; }
+.wifi-shell .btn-primary { --bs-btn-bg: #16734e; --bs-btn-border-color: #16734e; --bs-btn-hover-bg: #115a3d; --bs-btn-hover-border-color: #115a3d; --bs-btn-active-bg: #115a3d; --bs-btn-active-border-color: #115a3d; }
+.wifi-shell .h3 { font-size: 24px; font-weight: 600; letter-spacing: -.5px; }
+@media (max-width: 575px) {
+  .wifi-shell > .container { padding-inline: 16px; }
+  .wifi-shell .btn { margin-block: 4px; }
 }
 </style>
