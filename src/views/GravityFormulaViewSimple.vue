@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <p></p>
-    <p class="h2">Gravity Formula</p>
+    <p class="h3">Gravity Formula</p>
     <hr />
 
     <BsMessage v-if="config.gravity_formula === ''" dismissable="true" message="" alert="warning">
