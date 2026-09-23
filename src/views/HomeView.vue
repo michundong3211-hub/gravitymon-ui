@@ -12,7 +12,7 @@
       </BsMessage>
     </template>
 
-    <div v-if="status" :class="isConfigMode ? 'container overflow-hidden text-center' : 'wifi-overview'">
+    <div v-if="status" class="container overflow-hidden text-center">
       <div class="row gy-4" v-if="isConfigMode">
         <div class="col-md-4" v-if="status.self_check.gravity_formula && isConfigMode">
           <BsCard header="Measurement" color="info" title="Gravity">
@@ -170,39 +170,103 @@
           </BsCard>
         </div>
       </div>
-      <main v-else>
-        <div class="wifi-page-heading">
-          <p class="wifi-mode-label">WIFI MODE</p>
-          <h1>Device overview</h1>
-          <p class="text-secondary">Device information and connection details.</p>
+      <div class="row gy-4" v-else>
+        <div class="col-md-4">
+          <BsCardSimple header="WIFI">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <span class="text-center">{{ status.wifi_ssid }}</span>
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/wifi">
+                WIFI Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
         </div>
 
-        <div class="wifi-info-sections">
-          <section aria-labelledby="device-info-heading">
-            <h2 id="device-info-heading">Device</h2>
-            <dl class="wifi-details">
-              <div><dt>Device ID</dt><dd class="wifi-id-value"><span>{{ status.id || '—' }}</span>
-                <button type="button" class="btn btn-outline-secondary btn-sm" @click="copyId"
-                  :disabled="!status.id" aria-live="polite">{{ copied ? 'Copied!' : 'Copy ID' }}</button>
-              </dd></div>
-              <div><dt>Battery</dt><dd>{{ status.battery ?? '—' }} <span class="text-secondary">V</span></dd></div>
-              <div><dt>Firmware version</dt><dd>{{ global.app_ver || '—' }}</dd></div>
-              <div><dt>Board</dt><dd>{{ global.board || '—' }}</dd></div>
-            </dl>
-          </section>
-          <section aria-labelledby="wifi-info-heading">
-            <h2 id="wifi-info-heading">WIFI</h2>
-            <dl class="wifi-details">
-              <div><dt>Network</dt><dd>{{ status.wifi_ssid || 'Not connected' }}</dd></div>
-              <div><dt>IP address</dt><dd>{{ status.ip || '—' }}</dd></div>
-              <div><dt>Signal strength</dt><dd>{{ status.wifi_ssid && status.rssi ? `${status.rssi} dBm` : '—' }}</dd></div>
-              <div><dt>Device name</dt><dd>{{ config.mdns || '—' }}</dd></div>
-            </dl>
-          </section>
+        <div class="col-md-4">
+          <BsCardSimple header="HTTP Post">
+            <div class="d-flex align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/http-post">
+                HTTP Post Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+        <div class="col-md-4" v-if="!global.isEsp8266">
+          <BsCardSimple header="Bluetooth" title="">
+            <div class="d-flex align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/push/bluetooth">
+                Bluetooth Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
         </div>
 
-      </main>
+        <div class="col-md-4">
+          <BsCardSimple header="Gravity Formula" title="">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/gravity/formula2">
+                Gravity Formula Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
 
+        <div class="col-md-4">
+          <BsCardSimple header="Firmware" title="">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <span class="text-center">Current Version: {{ global.app_ver }}</span>
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/other/firmware">
+                Firmware Upload
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
+          <BsCardSimple header="Battery">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <span class="text-center">{{ status.battery }} V</span>
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/battery">
+                Battery Settings
+              </router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
+          <BsCardSimple header="Device" title="">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <span class="text-center">
+                {{ status.id }}
+                <button type="button" class="btn btn-outline-secondary btn-sm mx-2" @click="copyId"
+                  style="width: 69px; height: 24px; padding-top: 0; padding-bottom: 0">
+                  {{ copied ? 'Copied!' : 'Copy ID' }}
+                </button>
+              </span>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
+          <BsCardSimple header="Device" title="Restore defaults">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <button type="button" class="btn btn-secondary" :disabled="global.disabled"
+                @click="confirmRestoreDefaults()">
+                Restore default settings
+              </button>
+            </div>
+          </BsCardSimple>
+        </div>
+      </div>
+
+      <BsModalConfirm :callback="confirmRestoreCallback" :message="confirmRestoreMessage"
+        id="restoreDefaults" title="Restore default settings" />
     </div>
   </div>
 </template>
@@ -213,7 +277,7 @@ import { global, status, config } from '@/modules/pinia'
 import { logDebug, logError, logInfo } from '@/modules/logger'
 import { useTimers } from '@/composables/useTimers'
 import { useFetch } from '@/composables/useFetch'
-import { copyToClipboard } from '@/modules/utils.js'
+import { copyToClipboard, restoreFactoryDefaults as factory } from '@/modules/utils.js'
 
 const { createInterval, createTimeout } = useTimers()
 const { managedFetch } = useFetch()
@@ -317,24 +381,19 @@ function copyId() {
   }
 }
 
+const confirmRestoreMessage = ref('')
+
+const confirmRestoreCallback = (result) => {
+  if (result) factory()
+}
+
+const confirmRestoreDefaults = () => {
+  confirmRestoreMessage.value =
+    'Do you really want to restore default settings? WiFi settings are kept, all other settings are lost and the device will restart.'
+  document.getElementById('restoreDefaults').click()
+}
+
+
 </script>
 
-<style scoped>
-.wifi-page-heading { padding: 20px 0 24px; }
-.wifi-mode-label { color: #16734e; font-size: 12px; font-weight: 650; letter-spacing: 1.2px; margin-bottom: 8px; }
-.wifi-page-heading h1 { font-size: 30px; font-weight: 600; letter-spacing: -.8px; }
-.wifi-page-heading p:last-child { margin-bottom: 0; }
-.wifi-info-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-.wifi-overview h2 { font-size: 16px; font-weight: 650; margin-bottom: 16px; }
-.wifi-details { margin: 0; }
-.wifi-details > div { display: grid; grid-template-columns: 140px minmax(0, 1fr); align-items: center; gap: 12px; min-height: 64px; padding: 10px 0; border-top: 1px solid #e4e7e5; }
-.wifi-details dt { color: #5e6863; font-size: 14px; font-weight: 400; }
-.wifi-details dd { margin: 0; font-size: 15px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-.wifi-id-value { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-@media (max-width: 767px) {
-  .wifi-info-sections { grid-template-columns: 1fr; gap: 28px; }
-  .wifi-page-heading { padding-top: 12px; }
-  .wifi-page-heading h1 { font-size: 26px; }
-  .wifi-details > div { grid-template-columns: 126px minmax(0, 1fr); }
-}
-</style>
+<style></style>
