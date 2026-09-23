@@ -11,7 +11,7 @@
       <nav class="wifi-navigation" aria-label="Main navigation">
         <router-link v-for="item in menu" :key="item.path" :to="item.path"
           class="wifi-nav-link" exact-active-class="wifi-nav-active"
-          :class="{ 'wifi-nav-active': item.path === '/other/wifi-tools' && ['/other/firmware', '/other/about'].includes($route.path) }">
+          :class="{ 'wifi-nav-active': item.path === '/other/system-tools' && ['/other/firmware', '/other/about'].includes($route.path) }">
           <component :is="item.icon" width="16" height="16" aria-hidden="true" />
           {{ item.label }}
         </router-link>
@@ -31,7 +31,7 @@ const menu = computed(() => [
   ...(!global.isEsp8266 ? [{ path: '/push/bluetooth', label: 'Bluetooth', icon: 'IconCpu' }] : []),
   { path: '/gravity/formula2', label: 'Gravity Formula', icon: 'IconGraphUpArrow' },
   { path: '/device/battery', label: 'Battery', icon: 'IconCpu' },
-  { path: '/other/wifi-tools', label: 'Tools', icon: 'IconTools' }
+  { path: '/other/system-tools', label: 'Tools', icon: 'IconTools' }
 ])
 
 // WIFI mode always uses light colors without changing the saved config theme.

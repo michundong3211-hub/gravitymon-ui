@@ -24,14 +24,14 @@ try {
   status.wifi_setup = true
   global.platform = 'ESP32C3'
   let html = await render(Menu)
-  for (const path of ['/device/wifi', '/push/http-post', '/push/bluetooth', '/gravity/formula2', '/device/battery', '/other/wifi-tools']) {
+  for (const path of ['/device/wifi', '/push/http-post', '/push/bluetooth', '/gravity/formula2', '/device/battery', '/other/system-tools']) {
     assert.ok(html.includes(`href="${path}"`), path)
   }
   assert.ok(!html.includes('type="checkbox"'))
   assert.ok(!html.includes('href="/other/firmware"'))
   assert.ok(!html.includes('href="/other/about"'))
   for (const path of ['/other/firmware', '/other/about']) {
-    assert.match(await render(Menu, path), /href="\/other\/wifi-tools" class="[^"]*wifi-nav-active/)
+    assert.match(await render(Menu, path), /href="\/other\/system-tools" class="[^"]*wifi-nav-active/)
   }
   html = await render(Tools)
   assert.ok(html.includes('href="/other/firmware"'))

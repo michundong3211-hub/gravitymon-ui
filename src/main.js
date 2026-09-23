@@ -45,6 +45,8 @@ import IconCheckCircle from './components/IconCheckCircle.vue'
 import IconXCircle from './components/IconXCircle.vue'
 import IconExclamationTriangle from './components/IconExclamationTriangle.vue'
 import IconInfoCircle from './components/IconInfoCircle.vue'
+import IconArrowRight from './components/IconArrowRight.vue'
+import IconUploadCloud from './components/IconUploadCloud.vue'
 
 // Register Bootstrap components
 app.component('BsMessage', BsMessage)
@@ -82,6 +84,8 @@ app.component('IconCheckCircle', IconCheckCircle)
 app.component('IconXCircle', IconXCircle)
 app.component('IconExclamationTriangle', IconExclamationTriangle)
 app.component('IconInfoCircle', IconInfoCircle)
+app.component('IconArrowRight', IconArrowRight)
+app.component('IconUploadCloud', IconUploadCloud)
 
 import 'bootstrap/dist/css/bootstrap.css'
 

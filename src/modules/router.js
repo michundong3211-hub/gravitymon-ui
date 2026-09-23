@@ -35,8 +35,8 @@ import WifiToolsView from '@/views/WifiToolsView.vue'
 
 const routes = [
   {
-    path: '/other/wifi-tools',
-    name: 'wifi-tools',
+    path: '/other/system-tools',
+    name: 'system-tools',
     component: WifiToolsView
   },
   {
