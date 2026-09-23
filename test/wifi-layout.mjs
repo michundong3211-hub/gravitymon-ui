@@ -47,12 +47,10 @@ try {
   status.wifi_setup = true
   global.platform = 'ESP32C3'
   let html = await render(Menu)
-  for (const path of ['/other/about', '/other/system-tools']) {
-    assert.ok(html.includes(`href="${path}"`), path)
-  }
+  // WIFI 模式菜单不展示导航链接，入口全部在首页卡片
+  assert.ok(!html.includes('href="/other/about"'))
+  assert.ok(!html.includes('href="/other/system-tools"'))
   assert.ok(!html.includes('href="/other/firmware"'))
-  assert.match(await render(Menu, '/other/about'), /href="\/other\/about" class="[^"]*active/)
-  assert.match(await render(Menu, '/other/system-tools'), /href="\/other\/system-tools" class="[^"]*active/)
   html = await render(Tools)
   assert.ok(html.includes('href="/other/firmware"'))
   assert.ok(html.includes('href="/other/about"'))
@@ -64,12 +62,13 @@ try {
   html = await render(Home)
   assert.ok(html.includes('data-component="BsCardSimple"'))
   assert.ok(!html.includes('Device overview'))
-  assert.ok(html.includes('Restore default settings'))
+  assert.ok(!html.includes('Restore default settings'))
+  assert.ok(html.includes('href="/other/system-tools"'))
   assert.ok(html.includes('href="/other/firmware"'))
   assert.ok(html.includes('href="/device/battery"'))
   assert.ok(!html.includes('href="/push/bluetooth"'))
   assert.ok(html.includes('Copy ID'))
-  assert.ok(html.includes('data-component="BsModalConfirm"'))
+  assert.ok(!html.includes('data-component="BsModalConfirm"'))
   for (const forced of [false, true]) {
     status.wifi_setup = forced
     global.forceConfigMode = forced
@@ -78,7 +77,7 @@ try {
     assert.ok(!html.includes('data-component="BsCardSimple"'))
     assert.ok(html.includes('Force config mode'))
   }
-  console.log('PASS: WIFI card layout, system tools nav, ESP8266, zero battery, config and forced config layout')
+  console.log('PASS: WIFI card layout without nav links, system tools card, ESP8266, zero battery, config and forced config layout')
 } finally {
   await server.close()
 }

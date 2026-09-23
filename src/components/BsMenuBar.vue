@@ -102,34 +102,7 @@
           </template>
         </ul>
       </div>
-      <div v-else>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link
-              class="nav-link"
-              :class="[
-                $router.currentRoute.value.path === '/other/about' ? ' active fw-bold' : ''
-              ]"
-              to="/other/about"
-              :disabled="disabled"
-            >
-              About
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              class="nav-link"
-              :class="[
-                $router.currentRoute.value.path === '/other/system-tools' ? ' active fw-bold' : ''
-              ]"
-              to="/other/system-tools"
-              :disabled="disabled"
-            >
-              Tools
-            </router-link>
-          </li>
-        </ul>
-      </div>
+      <div v-else></div>
 
       <!--
       <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white"></div>
