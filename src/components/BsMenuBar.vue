@@ -102,7 +102,8 @@
           </template>
         </ul>
       </div>
-      <div v-else></div>
+      <!-- wifi 模式占位：需要 navbar-collapse 的 flex-grow:1 把右侧控件推到最右 -->
+      <div class="collapse navbar-collapse" id="navbar" v-else></div>
 
       <!--
       <div class="vr d-none d-lg-flex h-200 mx-lg-2 text-white"></div>
