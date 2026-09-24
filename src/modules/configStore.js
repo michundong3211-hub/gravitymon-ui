@@ -131,8 +131,8 @@ export const useConfigStore = defineStore('config', {
         this.sleep_interval = Math.min(this.http_post_sleep_interval, this.ble_sleep_interval);
         this.http_post_int = Math.floor(this.http_post_sleep_interval / this.sleep_interval) - 1;
       }
-      // 最后加一层校验，如果 sleep_interval 小于 60，那就是异常情况，直接设置为 900
-      if (this.sleep_interval < 60) {
+      // 最后加一层校验，如果 sleep_interval 小于 30，那就是异常情况，直接设置为 900
+      if (this.sleep_interval < 30) {
         this.sleep_interval = 900;
       }
       this.http_post2_int = this.http_post_int; // 同步第二个 HTTP Post 的间隔

@@ -19,7 +19,7 @@
               v-model="config.ble_sleep_interval"
               :label="'Sleep interval' + sleepLabel"
               unit="s"
-              min="60"
+              min="30"
               max="3600"
               step="1"
               width="4"
@@ -117,6 +117,7 @@ const bleTiltColorOptions = ref([
 
 const bleFormatOptions = ref([
   // { label: 'Disabled', value: 0 },   // 使用另外的开关来禁用蓝牙
+  { label: 'CuckooTilt', value: 8 },
   { label: 'Tilt iBeacon', value: 1 },
   { label: 'Tilt PRO iBeacon', value: 2 },
   { label: 'RAPT v1', value: 6 },
