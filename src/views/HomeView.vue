@@ -259,7 +259,7 @@
               <span class="text-center">Firmware update, About and restore</span>
               <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                 to="/other/system-tools">
-                Open System Tools
+                System Tools
               </router-link>
             </div>
           </BsCardSimple>
