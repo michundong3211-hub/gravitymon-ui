@@ -13,6 +13,7 @@ export var configData = {
   ota_url: 'http://localhost:3000/api/',
   // ota_url: 'https://api.ckbrew.com/rest/public/',
   storage_sleep: true,
+  storage_hibernate_days: 30,
   voltage_factor: 1.59,
   voltage_config: 4.15,
   gyro_temp: false,
@@ -207,7 +208,7 @@ export var statusData = {
   gyro_family: 'MPU6050',
   // gyro_family: 'MPU6500',
   // gyro_family: 'ICM42670-p',
-  wifi_setup: true
+  wifi_setup: false
 }
 
 export var featureData = {

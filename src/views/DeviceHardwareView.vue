@@ -43,13 +43,8 @@
           ></BsInputNumber>
         </div>
 
-        <div class="col-md-6">
-          <BsInputSwitch
-            v-model="config.storage_sleep"
-            label="Storage sleep"
-            help="If enabled and the device is placed on its cap (less than 15 degrees) it will go into sleep for 2000 minutes"
-            :disabled="global.disabled"
-          ></BsInputSwitch>
+        <div class="col-12">
+          <StorageSleepSettings />
         </div>
         <div class="col-md-6" v-if="!global.isEsp8266">
           <BsInputSwitch
@@ -129,6 +124,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import StorageSleepSettings from '@/components/StorageSleepSettings.vue'
 import { validateCurrentForm, restart } from '@/modules/utils'
 import { global, config, status } from '@/modules/pinia'
 

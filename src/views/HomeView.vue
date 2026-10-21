@@ -172,6 +172,16 @@
       </div>
       <div class="row gy-4" v-else>
         <div class="col-md-4">
+          <BsCardSimple header="Storage &amp; sleep">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
+              <span>Automatic long sleep after storage</span>
+              <router-link class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                to="/device/wifi#storage-sleep">Storage sleep settings</router-link>
+            </div>
+          </BsCardSimple>
+        </div>
+
+        <div class="col-md-4">
           <BsCardSimple header="WIFI">
             <div class="d-flex flex-column align-items-center justify-content-center" style="height: 80px; gap: 1rem">
               <span class="text-center">{{ status.wifi_ssid }}</span>

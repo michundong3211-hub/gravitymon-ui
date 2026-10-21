@@ -17,6 +17,7 @@ export const useConfigStore = defineStore('config', {
       // Hardware
       ota_url: '',
       storage_sleep: false,
+      storage_hibernate_days: null,
       voltage_factor: 0,
       voltage_config: 0,
       gyro_temp: false,
@@ -191,6 +192,7 @@ export const useConfigStore = defineStore('config', {
           // Hardware
           this.ota_url = json.ota_url
           this.storage_sleep = json.storage_sleep
+          this.storage_hibernate_days = json.storage_hibernate_days ?? null
           this.voltage_factor = json.voltage_factor
           this.voltage_config = json.voltage_config
           this.gyro_type = json.gyro_type
