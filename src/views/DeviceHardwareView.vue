@@ -43,14 +43,43 @@
           ></BsInputNumber>
         </div>
 
-        <div class="col-12">
-          <StorageSleepSettings />
+        <div class="col-md-6">
+          <BsInputSwitch
+            v-model="config.storage_sleep"
+            label="Storage sleep"
+            help="When placed on its cap (less than 15°), sleep and check the angle once an hour."
+            :disabled="global.disabled"
+          ></BsInputSwitch>
         </div>
+        <template v-if="isConfigMode">
+          <div class="col-md-6">
+            <BsInputSwitch
+              v-model="hibernateEnabled"
+              label="Automatic long sleep"
+              help="Stop automatic wake-ups after continuous storage. Use an external reset (for example a magnet with a reed switch) to wake the device."
+              :disabled="global.disabled || !config.storage_sleep || !hibernateSupported"
+            ></BsInputSwitch>
+          </div>
+          <div v-if="hibernateEnabled" class="col-md-6">
+            <BsInputNumber
+              v-model="config.storage_hibernate_days"
+              label="Enter long sleep after"
+              unit="days"
+              min="1"
+              max="365"
+              step="1"
+              required
+              width="4"
+              help="1–365 days of continuous upside-down storage. Default: 30 days. Measurement or an external reset restarts the countdown."
+              :disabled="global.disabled || !config.storage_sleep"
+            ></BsInputNumber>
+          </div>
+        </template>
         <div class="col-md-6" v-if="!global.isEsp8266">
           <BsInputSwitch
             v-model="config.charging_pin_enabled"
             label="Charging Pin Mode"
-            help="If enabled and the device will go into wifi mode when charging power exceeds 2V on the defined pin and wakeup when power is lost."
+            help="Enter WiFi mode when charging power exceeds 2V on the defined pin. During storage, wake when charging power is connected."
             :disabled="global.disabled || !global.feature.charging"
           ></BsInputSwitch>
         </div>
@@ -124,9 +153,15 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import StorageSleepSettings from '@/components/StorageSleepSettings.vue'
 import { validateCurrentForm, restart } from '@/modules/utils'
 import { global, config, status } from '@/modules/pinia'
+
+const isConfigMode = computed(() => status.wifi_setup === false || global.forceConfigMode)
+const hibernateSupported = computed(() => config.storage_hibernate_days !== null)
+const hibernateEnabled = computed({
+  get: () => hibernateSupported.value && config.storage_hibernate_days > 0,
+  set: (enabled) => { config.storage_hibernate_days = enabled ? 30 : 0 }
+})
 
 const tempsensorResolutionOptions = ref([
   { label: '0.5°C (93 ms)', value: 9 },

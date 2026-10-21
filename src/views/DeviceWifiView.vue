@@ -49,8 +49,6 @@
         </div>
       </div>
 
-      <StorageSleepSettings />
-
       <div class="row gy-2">
         <div class="col-md-12">
           <hr />
@@ -140,7 +138,6 @@ import { copyToClipboard, restart, validateCurrentForm } from '@/modules/utils'
 import { config, global, status } from '@/modules/pinia'
 import * as badge from '@/modules/badge'
 import { onMounted, ref } from 'vue'
-import StorageSleepSettings from '@/components/StorageSleepSettings.vue'
 import { logDebug } from '@/modules/logger'
 
 const scanning = ref(false)

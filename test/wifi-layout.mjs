@@ -29,10 +29,16 @@ const server = await createServer({
 
 try {
   // Load through Vite so the check exercises the actual Vue templates and stores.
-  const { global, status } = await server.ssrLoadModule('/src/modules/pinia.js')
+  const { global, status, config } = await server.ssrLoadModule('/src/modules/pinia.js')
   const { default: Menu } = await server.ssrLoadModule('/src/components/BsMenuBar.vue')
   const { default: Home } = await server.ssrLoadModule('/src/views/HomeView.vue')
   const { default: Tools } = await server.ssrLoadModule('/src/views/WifiToolsView.vue')
+  const { default: Hardware } = await server.ssrLoadModule('/src/views/DeviceHardwareView.vue')
+  const { default: Wifi } = await server.ssrLoadModule('/src/views/DeviceWifiView.vue')
+  const fields = {}
+  for (const name of ['BsInputBase', 'BsInputSwitch', 'BsInputNumber', 'BsInputText', 'BsInputRadio', 'BsSelect']) {
+    fields[name] = (await server.ssrLoadModule(`/src/components/${name}.vue`)).default
+  }
   const render = async (component, path = '/') => {
     const app = createSSRApp(component)
     const route = { path }
@@ -42,6 +48,7 @@ try {
     for (const name of ['BsCard', 'BsCardSimple', 'BsMessage', 'BsModalConfirm']) {
       app.component(name, { setup: (_, { slots }) => () => h('div', { 'data-component': name }, slots.default?.()) })
     }
+    for (const [name, component] of Object.entries(fields)) app.component(name, component)
     return renderToString(app)
   }
   status.wifi_setup = true
@@ -77,6 +84,26 @@ try {
     assert.ok(!html.includes('data-component="BsCardSimple"'))
     assert.ok(html.includes('Force config mode'))
   }
+  config.storage_sleep = true
+  config.storage_hibernate_days = 30
+  for (const [wifiSetup, forced, visible] of [[true, false, false], [false, false, true], [true, true, true]]) {
+    status.wifi_setup = wifiSetup
+    global.forceConfigMode = forced
+    html = await render(Hardware)
+    assert.equal(html.includes('Automatic long sleep'), visible)
+    assert.equal(html.includes('Enter long sleep after'), visible)
+    assert.ok(!html.includes('border rounded-3'))
+    html = await render(Wifi)
+    assert.ok(!html.includes('Automatic long sleep'))
+    assert.ok(!html.includes('Enter long sleep after'))
+  }
+  status.wifi_setup = false
+  global.forceConfigMode = false
+  config.storage_hibernate_days = 0
+  html = await render(Hardware)
+  assert.ok(html.includes('Automatic long sleep'))
+  assert.ok(!html.includes('Enter long sleep after'))
+  console.log('PASS: storage controls only in config mode, inline layout, disabled long sleep')
   console.log('PASS: WIFI card layout without nav links, system tools card, ESP8266, zero battery, config and forced config layout')
 } finally {
   await server.close()
