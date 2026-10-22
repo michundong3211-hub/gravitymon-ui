@@ -2,12 +2,45 @@
   <main class="container system-tools">
     <div class="st-header">
       <h1 class="st-title"><IconTools width="20" height="20" aria-hidden="true" />System tools</h1>
-      <p class="st-text">Maintenance, diagnostics and firmware for this device.</p>
+      <p class="st-text">Maintenance and settings for this device.</p>
       <p class="st-text">Firmware version: {{ global.app_ver || '—' }}</p>
     </div>
 
     <section class="st-links">
-      <router-link to="/other/firmware" class="st-link-row">
+      <form v-if="isWifiMode" @submit.prevent="save" class="st-card st-card-muted needs-validation" novalidate>
+        <div>
+          <h2 class="st-card-title">Storage sleep</h2>
+          <BsInputSwitch
+            v-model="config.storage_sleep"
+            label="Storage sleep"
+            help="When placed on its cap (less than 15°), sleep and check the angle once an hour."
+            :disabled="global.disabled || !hibernateSupported"
+          />
+          <BsInputSwitch
+            v-model="hibernateEnabled"
+            label="Automatic long sleep"
+            help="Stop automatic wake-ups after continuous storage. Use an external reset (for example a magnet with a reed switch) to wake the device."
+            :disabled="global.disabled || !config.storage_sleep || !hibernateSupported"
+          />
+          <BsInputNumber
+            v-if="hibernateEnabled"
+            v-model="config.storage_hibernate_days"
+            label="Enter long sleep after"
+            unit="days"
+            min="1"
+            max="365"
+            step="1"
+            required
+            width="4"
+            help="1–365 days of continuous upside-down storage. Default: 30 days. Measurement or an external reset restarts the countdown."
+            :disabled="global.disabled || !config.storage_sleep"
+          />
+          <p v-if="!hibernateSupported" class="st-text">Long sleep settings are unavailable on this firmware.</p>
+        </div>
+        <button type="submit" class="btn btn-primary"
+          :disabled="global.disabled || !global.configChanged || !hibernateSupported">Save</button>
+      </form>
+      <router-link v-else to="/other/firmware" class="st-link-row">
         <span class="st-link-icon"><IconUploadCloud width="20" height="20" aria-hidden="true" /></span>
         <div>
           <h2>Firmware update</h2>
@@ -50,8 +83,21 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref } from 'vue'
-import { global } from '@/modules/pinia'
+import { global, config, status } from '@/modules/pinia'
 import { logError } from '@/modules/logger'
+import { validateCurrentForm } from '@/modules/utils'
+
+const isWifiMode = computed(() => status.wifi_setup === true && !global.forceConfigMode)
+const hibernateSupported = computed(() => config.storage_hibernate_days !== null)
+const hibernateEnabled = computed({
+  get: () => hibernateSupported.value && config.storage_hibernate_days > 0,
+  set: (enabled) => { config.storage_hibernate_days = enabled ? 30 : 0 }
+})
+
+const save = () => {
+  if (!validateCurrentForm()) return
+  config.saveAll()
+}
 
 const restoreState = ref('idle') // idle | requesting | accepted | failed
 

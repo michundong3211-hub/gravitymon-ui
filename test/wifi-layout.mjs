@@ -59,7 +59,8 @@ try {
   assert.ok(!html.includes('href="/other/system-tools"'))
   assert.ok(!html.includes('href="/other/firmware"'))
   html = await render(Tools)
-  assert.ok(html.includes('href="/other/firmware"'))
+  assert.ok(!html.includes('href="/other/firmware"'))
+  assert.ok(html.includes('Long sleep settings are unavailable on this firmware.'))
   assert.ok(html.includes('href="/other/about"'))
   assert.ok(html.includes('Restore defaults'))
   assert.ok(html.includes('data-component="BsModalConfirm"'))
@@ -96,6 +97,16 @@ try {
     html = await render(Wifi)
     assert.ok(!html.includes('Automatic long sleep'))
     assert.ok(!html.includes('Enter long sleep after'))
+    html = await render(Tools)
+    assert.equal(html.includes('Automatic long sleep'), !visible)
+    assert.equal(html.includes('Enter long sleep after'), !visible)
+    assert.equal(html.includes('href="/other/firmware"'), visible)
+    if (!visible) {
+      assert.ok(html.includes('min="1"'))
+      assert.ok(html.includes('max="365"'))
+      assert.ok(html.includes('value="30"'))
+      assert.ok(html.includes('type="submit"'))
+    }
   }
   status.wifi_setup = false
   global.forceConfigMode = false
@@ -103,7 +114,19 @@ try {
   html = await render(Hardware)
   assert.ok(html.includes('Automatic long sleep'))
   assert.ok(!html.includes('Enter long sleep after'))
-  console.log('PASS: storage controls only in config mode, inline layout, disabled long sleep')
+  status.wifi_setup = true
+  html = await render(Tools)
+  assert.ok(html.includes('Automatic long sleep'))
+  assert.ok(!html.includes('Enter long sleep after'))
+  config.storage_hibernate_days = 30
+  config.storage_sleep = false
+  html = await render(Tools)
+  assert.match(html, /type="number"[^>]*disabled/)
+  config.storage_hibernate_days = null
+  html = await render(Tools)
+  assert.ok(html.includes('Long sleep settings are unavailable on this firmware.'))
+  assert.match(html, /type="submit"[^>]*disabled/)
+  console.log('PASS: config hardware and WIFI system tools storage settings, bounds, disabled and unsupported firmware')
   console.log('PASS: WIFI card layout without nav links, system tools card, ESP8266, zero battery, config and forced config layout')
 } finally {
   await server.close()
