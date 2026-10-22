@@ -48,13 +48,13 @@
       <router-link to="/other/firmware" class="btn btn-outline-primary">Open</router-link>
     </section>
 
-    <section class="st-card">
+    <router-link to="/other/about" class="st-card st-card-link">
       <div>
         <h2 class="st-card-title"><IconInfoCircle width="16" height="16" aria-hidden="true" />About</h2>
         <p class="st-card-desc st-text">About CuckooTilt, GravityMon and licensing.</p>
       </div>
-      <router-link to="/other/about" class="btn btn-outline-primary">Open</router-link>
-    </section>
+      <span class="st-link-open">Open<IconArrowRight width="16" height="16" aria-hidden="true" /></span>
+    </router-link>
 
     <section class="st-card st-card-danger">
       <div>
@@ -149,6 +149,11 @@ onBeforeUnmount(() => {
 .st-card > div { width: 100%; }
 .st-card-danger { border: 1px solid rgba(176, 42, 55, .3); }
 .st-card-desc { max-width: 640px; margin-top: 8px; line-height: 1.5; }
+.st-card-link { color: inherit; text-decoration: none; transition: background-color .15s ease-in-out; }
+.st-card-link:hover { background: #f6f8f7; }
+.st-link-open { display: flex; align-items: center; gap: 4px; color: #16734e; font-size: 14px; font-weight: 500; }
+.st-link-open svg { transition: transform .15s ease-in-out; }
+.st-card-link:hover .st-link-open svg { transform: translateX(4px); }
 
 .st-status { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 14px; min-height: 22px; }
 .st-status-danger { color: #b02a37; }
