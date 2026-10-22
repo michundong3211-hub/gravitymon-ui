@@ -155,13 +155,10 @@
 import { ref, computed } from 'vue'
 import { validateCurrentForm, restart } from '@/modules/utils'
 import { global, config, status } from '@/modules/pinia'
+import { useStorageHibernate } from '@/composables/useStorageHibernate'
 
 const isConfigMode = computed(() => status.wifi_setup === false || global.forceConfigMode)
-const hibernateSupported = computed(() => config.storage_hibernate_days !== null)
-const hibernateEnabled = computed({
-  get: () => hibernateSupported.value && config.storage_hibernate_days > 0,
-  set: (enabled) => { config.storage_hibernate_days = enabled ? 30 : 0 }
-})
+const { hibernateSupported, hibernateEnabled, validateStorageHibernate } = useStorageHibernate()
 
 const tempsensorResolutionOptions = ref([
   { label: '0.5°C (93 ms)', value: 9 },
@@ -179,7 +176,7 @@ const voltage = computed(() => {
 })
 
 const save = () => {
-  if (!validateCurrentForm()) return
+  if (!validateStorageHibernate() || !validateCurrentForm()) return
 
   global.clearMessages()
   config.saveAll()

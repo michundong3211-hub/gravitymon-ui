@@ -86,16 +86,13 @@ import { computed, onBeforeUnmount, ref } from 'vue'
 import { global, config, status } from '@/modules/pinia'
 import { logError } from '@/modules/logger'
 import { validateCurrentForm } from '@/modules/utils'
+import { useStorageHibernate } from '@/composables/useStorageHibernate'
 
 const isWifiMode = computed(() => status.wifi_setup === true && !global.forceConfigMode)
-const hibernateSupported = computed(() => config.storage_hibernate_days !== null)
-const hibernateEnabled = computed({
-  get: () => hibernateSupported.value && config.storage_hibernate_days > 0,
-  set: (enabled) => { config.storage_hibernate_days = enabled ? 30 : 0 }
-})
+const { hibernateSupported, hibernateEnabled, validateStorageHibernate } = useStorageHibernate()
 
 const save = () => {
-  if (!validateCurrentForm()) return
+  if (!validateStorageHibernate() || !validateCurrentForm()) return
   config.saveAll()
 }
 
