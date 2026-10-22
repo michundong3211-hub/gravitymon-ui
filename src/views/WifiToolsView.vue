@@ -7,7 +7,7 @@
     </div>
 
     <section class="st-links">
-      <form v-if="isWifiMode" @submit.prevent="save" class="st-card st-card-muted needs-validation" novalidate>
+      <form v-if="isWifiMode" @submit.prevent="save" class="st-card needs-validation" novalidate>
         <div>
           <h2 class="st-card-title">Storage sleep</h2>
           <BsInputSwitch
@@ -149,18 +149,18 @@ onBeforeUnmount(() => {
 .st-title-danger { color: #b02a37; }
 
 .st-links { border-block: 1px solid #e4e7e5; }
-.st-link-row { display: grid; gap: 12px; padding: 20px 0; color: inherit; text-decoration: none; transition: background-color .15s ease-in-out; }
+.st-links > * + * { border-top: 2px solid #ccd5d0; }
+.st-link-row { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px; color: inherit; text-decoration: none; transition: background-color .15s ease-in-out; }
 .st-link-row:hover { background: #f6f8f7; }
 .st-link-row:hover .st-link-open svg { transform: translateX(4px); }
 .st-link-icon { color: #16734e; }
 .st-link-row h2 { font-size: 14px; font-weight: 600; margin: 0; }
 .st-link-row .st-text { margin-top: 4px; }
-.st-link-open { display: flex; align-items: center; gap: 4px; color: #16734e; font-size: 14px; font-weight: 500; align-self: center; }
+.st-link-open { display: flex; align-items: center; gap: 4px; color: #16734e; font-size: 14px; font-weight: 500; }
 .st-link-open svg { transition: transform .15s ease-in-out; }
 
-.st-card { display: flex; flex-direction: column; gap: 20px; border-radius: 8px; padding: 20px; }
-.st-card > div { flex: 1; }
-.st-card-muted { background: #f6f8f7; }
+.st-card { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; border-radius: 8px; padding: 24px; }
+.st-card > div { width: 100%; }
 .st-card-danger { border: 1px solid rgba(176, 42, 55, .3); }
 .st-card-desc { max-width: 640px; margin-top: 8px; line-height: 1.5; }
 
@@ -170,11 +170,6 @@ onBeforeUnmount(() => {
 
 .st-card .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; }
 
-@media (min-width: 576px) {
-  .st-link-row { grid-template-columns: 2.5rem 1fr auto; align-items: center; padding-inline: 12px; }
-  .st-card { flex-direction: row; align-items: center; padding: 24px; }
-  .st-card .btn { align-self: center; }
-}
 @media (max-width: 575px) {
   .st-card .btn { width: 100%; }
 }
