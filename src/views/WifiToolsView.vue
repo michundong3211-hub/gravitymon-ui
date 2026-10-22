@@ -6,57 +6,54 @@
       <p class="st-text">Firmware version: {{ global.app_ver || '—' }}</p>
     </div>
 
-    <section class="st-links">
-      <form v-if="isWifiMode" @submit.prevent="save" class="st-card needs-validation" novalidate>
-        <div>
-          <h2 class="st-card-title">Storage sleep</h2>
-          <BsInputSwitch
-            v-model="config.storage_sleep"
-            label="Storage sleep"
-            help="When placed on its cap (less than 15°), sleep and check the angle once an hour."
-            :disabled="global.disabled || !hibernateSupported"
-          />
-          <BsInputSwitch
-            v-model="hibernateEnabled"
-            label="Automatic long sleep"
-            help="Stop automatic wake-ups after continuous storage. Use an external reset (for example a magnet with a reed switch) to wake the device."
-            :disabled="global.disabled || !config.storage_sleep || !hibernateSupported"
-          />
-          <BsInputNumber
-            v-if="hibernateEnabled"
-            v-model="config.storage_hibernate_days"
-            label="Enter long sleep after"
-            unit="days"
-            min="1"
-            max="365"
-            step="1"
-            required
-            width="4"
-            help="1–365 days of continuous upside-down storage. Default: 30 days. Measurement or an external reset restarts the countdown."
-            :disabled="global.disabled || !config.storage_sleep"
-          />
-          <p v-if="!hibernateSupported" class="st-text">Long sleep settings are unavailable on this firmware.</p>
-        </div>
-        <button type="submit" class="btn btn-primary"
-          :disabled="global.disabled || !global.configChanged || !hibernateSupported">Save</button>
-      </form>
-      <router-link v-else to="/other/firmware" class="st-link-row">
-        <span class="st-link-icon"><IconUploadCloud width="20" height="20" aria-hidden="true" /></span>
-        <div>
-          <h2>Firmware update</h2>
-          <p class="st-text">Open a firmware update page to install a new firmware version.</p>
-        </div>
-        <span class="st-link-open">Open<IconArrowRight width="16" height="16" aria-hidden="true" /></span>
-      </router-link>
+    <form v-if="isWifiMode" @submit.prevent="save" class="st-card needs-validation" novalidate>
+      <div>
+        <h2 class="st-card-title">Storage sleep</h2>
+        <BsInputSwitch
+          v-model="config.storage_sleep"
+          label="Storage sleep"
+          help="When placed on its cap (less than 15°), sleep and check the angle once an hour."
+          :disabled="global.disabled || !hibernateSupported"
+        />
+        <BsInputSwitch
+          v-model="hibernateEnabled"
+          label="Automatic long sleep"
+          help="Stop automatic wake-ups after continuous storage. Use an external reset (for example a magnet with a reed switch) to wake the device."
+          :disabled="global.disabled || !config.storage_sleep || !hibernateSupported"
+        />
+        <BsInputNumber
+          v-if="hibernateEnabled"
+          v-model="config.storage_hibernate_days"
+          label="Enter long sleep after"
+          unit="days"
+          min="1"
+          max="365"
+          step="1"
+          required
+          width="4"
+          help="1–365 days of continuous upside-down storage. Default: 30 days. Measurement or an external reset restarts the countdown."
+          :disabled="global.disabled || !config.storage_sleep"
+        />
+        <p v-if="!hibernateSupported" class="st-text">Long sleep settings are unavailable on this firmware.</p>
+      </div>
+      <button type="submit" class="btn btn-primary"
+        :disabled="global.disabled || !global.configChanged || !hibernateSupported">Save</button>
+    </form>
 
-      <router-link to="/other/about" class="st-link-row">
-        <span class="st-link-icon"><IconInfoCircle width="20" height="20" aria-hidden="true" /></span>
-        <div>
-          <h2>About</h2>
-          <p class="st-text">About CuckooTilt, GravityMon and licensing.</p>
-        </div>
-        <span class="st-link-open">Open<IconArrowRight width="16" height="16" aria-hidden="true" /></span>
-      </router-link>
+    <section v-else class="st-card">
+      <div>
+        <h2 class="st-card-title"><IconUploadCloud width="16" height="16" aria-hidden="true" />Firmware update</h2>
+        <p class="st-card-desc st-text">Open a firmware update page to install a new firmware version.</p>
+      </div>
+      <router-link to="/other/firmware" class="btn btn-outline-primary">Open</router-link>
+    </section>
+
+    <section class="st-card">
+      <div>
+        <h2 class="st-card-title"><IconInfoCircle width="16" height="16" aria-hidden="true" />About</h2>
+        <p class="st-card-desc st-text">About CuckooTilt, GravityMon and licensing.</p>
+      </div>
+      <router-link to="/other/about" class="btn btn-outline-primary">Open</router-link>
     </section>
 
     <section class="st-card st-card-danger">
@@ -148,18 +145,7 @@ onBeforeUnmount(() => {
 .st-text { color: #5e6863; font-size: 14px; margin: 0; }
 .st-title-danger { color: #b02a37; }
 
-.st-links { border-block: 1px solid #e4e7e5; }
-.st-links > * + * { border-top: 2px solid #ccd5d0; }
-.st-link-row { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px; color: inherit; text-decoration: none; transition: background-color .15s ease-in-out; }
-.st-link-row:hover { background: #f6f8f7; }
-.st-link-row:hover .st-link-open svg { transform: translateX(4px); }
-.st-link-icon { color: #16734e; }
-.st-link-row h2 { font-size: 14px; font-weight: 600; margin: 0; }
-.st-link-row .st-text { margin-top: 4px; }
-.st-link-open { display: flex; align-items: center; gap: 4px; color: #16734e; font-size: 14px; font-weight: 500; }
-.st-link-open svg { transition: transform .15s ease-in-out; }
-
-.st-card { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; border-radius: 8px; padding: 24px; }
+.st-card { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; border: 1px solid #ccd5d0; border-radius: 8px; padding: 24px; }
 .st-card > div { width: 100%; }
 .st-card-danger { border: 1px solid rgba(176, 42, 55, .3); }
 .st-card-desc { max-width: 640px; margin-top: 8px; line-height: 1.5; }
